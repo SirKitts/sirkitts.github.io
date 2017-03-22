@@ -1,6 +1,6 @@
 <template>
   <div class="video-item">
-    <h1>{{ msg }}</h1>
+    <h1>{{ msg }} {{title}} {{$route.params.id}}</h1>
     <md-card class="card-example">
       <md-card-area md-inset>
         <md-card-media md-ratio="16:9">
@@ -40,12 +40,47 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
+
 export default {
   name: 'video-item',
+  props: {
+    id: String
+  },
   data () {
     return {
-      msg: 'Video Sample #1'
+      msg: 'Video Item',
+      title: '',
+      duration: '150'
     }
+  },
+  mounted () {
+    var self = this
+    /*
+    axios.get('https://api.github.com/users/codeheaven-io')
+    .then(function (response) {
+      console.log(response.data)
+      console.log(response.status)
+      console.log(response.data.login)
+      self.title = response.data.login
+    })
+    let duration = 150
+    let hours = duration / 60
+    let minutes = duration % 60
+    let hr = hours.toString().split(".")
+    let mins = minutes.toString().split(".")
+    let secs = (minutes * 60) % 60
+    let time = hr[0] + 'h' + mins[0] + 'm'+ secs + 's'
+    */
+    this.$http.get('https://api.github.com/users/codeheaven-io')
+    .then((response) => {
+      console.log(response.data)
+      self.title = response.data.type
+    })
   }
 }
 </script>

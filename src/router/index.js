@@ -1,25 +1,15 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
+import Hello from '@/components/Hello'
 
-import Home from '@/pages/Home'
-import Video from '@/pages/Video'
-import About from '@/pages/About'
+Vue.use(Router)
 
-Vue.use(VueRouter)
-
-export default new VueRouter({
+export default new Router({
   routes: [
     {
       path: '/',
-      component: Home
-    },
-    {
-      path: '/video',
-      component: Video
-    },
-    {
-      path: '/about',
-      component: About
+      name: 'Hello',
+      component: Hello
     }
   ]
 })
