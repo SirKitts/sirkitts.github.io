@@ -1,7 +1,6 @@
 import { configure } from '@storybook/vue';
 
 import Vue from 'vue';
-import VueRouter from 'vue-router'
 
 // Import your global css
 // import './components/common/_css/style.scss';

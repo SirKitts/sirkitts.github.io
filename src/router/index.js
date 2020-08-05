@@ -11,9 +11,34 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/samples',
-    name: 'Samples',
-    component: () => import(/* webpackChunkName: "samples-views" */ '../views/Samples.vue')
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "login-components" */ '@/views/Login.vue')
+  },
+  {
+    path: '/my-appointment/:id',
+    name: 'MyAppointment',
+    component: () => import(/* webpackChunkName: "myappointment-components" */ '@/views/MyAppointment.vue')
+  },
+  {
+    path: '/reschedule-appointment/:id',
+    name: 'RescheduleAppointment',
+    component: () => import(/* webpackChunkName: "rescheduleappointment-components" */ '@/views/RescheduleAppointment.vue')
+  },
+  {
+    path: '/make-an-appointment',
+    name: 'MakeAnAppointment',
+    component: () => import(/* webpackChunkName: "makeappointment-components" */ '@/views/MakeAnAppointment.vue')
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import(/* webpackChunkName: "admin-login-components" */ '@/admin/Login.vue')
+  },
+  {
+    path: '/admin/appointments',
+    name: 'AdminAppointments',
+    component: () => import(/* webpackChunkName: "admin-appointments-components" */ '@/admin/Admin.vue')
   },
 ]
 

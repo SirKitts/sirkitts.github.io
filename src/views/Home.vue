@@ -1,37 +1,22 @@
 <template>
   <main class="main-container">
-    <DesignImages />
-    <Tutorials />
-    <div class="samples">
-      <a href="./samples">Business Card sample</a>
-    </div>
+    <Login />
   </main>
 </template>
 
 <script>
-const DesignImages = () => import(
-  /* webpackChunkName: "designimages-samples-component" */ '@/components/samples/DesignImages.vue'
-);
-
-const Tutorials = () => import(
-  /* webpackChunkName: "tutorials-samples-component" */ '@/components/samples/Tutorials.vue'
+const Login = () => import(
+  /* webpackChunkName: "login-component" */ '@/views/Login.vue'
 );
 
 export default {
   name: 'home',
   components: {
-    DesignImages,
-    Tutorials
+    Login
   }
 }
 </script>
 
 <style scoped>
-.samples {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  padding-top: 50px;
-}
+
 </style>

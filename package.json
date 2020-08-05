@@ -10,10 +10,12 @@
     "storybook": "start-storybook"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuetify": "^2.3.6"
+    "vue-axios": "^2.1.5",
+    "vue-flash-message": "^0.7.2",
+    "vue-router": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
@@ -36,13 +38,9 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-preset-vue": "^2.0.2",
-    "deepmerge": "^4.2.2",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "fibers": "^5.0.0",
     "node-sass": "^4.14.1",
-    "sass": "^1.26.10",
-    "sass-loader": "^9.0.2",
     "vue-loader": "^15.9.3",
     "vue-template-compiler": "^2.6.11"
   },
