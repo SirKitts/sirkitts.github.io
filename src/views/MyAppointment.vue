@@ -24,7 +24,9 @@
       <p><img class="img-round" :src="getUserIcon(user.store.avatar)" width="50%" height="50%"/></p>
       <Notification :badge="getPosition()" />
       <p>Consultant Name: {{ getConsultant (user.store.consultant) }}</p>
-      <EstimatedTime :apptdatetime="user.store.apptdatetime" :status="user.store.status"/>
+      <EstimatedTime 
+         v-if="user.store.status === '0'"
+        :apptdatetime="user.store.apptdatetime" :status="user.store.status"/>
     </center>
 
     <button type="submit" class="btn" @click="logout">Logout</button>

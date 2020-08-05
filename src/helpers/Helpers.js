@@ -11,7 +11,8 @@ Vue.use(VueFlashMessage, {
 });
 
 const vm = new Vue();
-const baseURL = 'http://localhost:5000/users/';
+// const baseURL = 'http://localhost:5000/users/';
+const baseURL = 'https://nameless-woodland-38449.herokuapp.com/';
 
 const handleError = fn => (...params) =>
   fn(...params).catch(error => {
