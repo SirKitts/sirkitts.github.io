@@ -34,7 +34,8 @@
 import store from '@/admin/js/store'
 import pass from '@/admin/js/pass'
 import { api } from '@/helpers/Helpers'
-import { CONSULTANTS, POLLING_TIME } from '@/helpers/constants';
+import { CONSULTANTS } from '@/helpers/constants';
+// import { CONSULTANTS, POLLING_TIME } from '@/helpers/constants';
 
 const ShowAll = () => import(
   /* webpackChunkName: "showall-component" */ '@/admin/ShowAll.vue'
@@ -117,10 +118,10 @@ export default {
     this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
     this.consultant = '0'
     await this.reNumber()
-    this.poll = setInterval(this.reNumber, POLLING_TIME)
+    // this.poll = setInterval(this.reNumber, POLLING_TIME)
   },
   beforeDestroy () {
-    clearInterval(this.poll);
+    // clearInterval(this.poll);
   }
 }
 </script>

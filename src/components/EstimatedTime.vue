@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { POLLING_TIME } from '@/helpers/constants';
+// import { POLLING_TIME } from '@/helpers/constants';
 
 export default {
   name: 'estimatedtime',
@@ -34,10 +34,10 @@ export default {
     this.estimatedTime = new Date(this.apptdatetime)
     this.currentTime = new Date(new Date().getTime())
     this.estimate()
-    this.etime = setInterval(this.estimate, POLLING_TIME)
+    // this.etime = setInterval(this.estimate, POLLING_TIME)
   },
   beforeDestroy () {
-    clearInterval(this.etime);
+    // clearInterval(this.etime);
   }
 }
 </script>

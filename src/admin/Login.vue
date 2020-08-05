@@ -9,7 +9,7 @@
     </div>
 
     <div class="input-container">
-      <i class="fa fa-envelope icon"></i>
+      <i class="fa fa-key icon"></i>
       <input v-model="pass" class="input-field" type="password" placeholder="Password">
       <span v-if="msg.pass" style="color: red; padding: 5px 5px;">&#x274C;</span>
     </div>

@@ -39,7 +39,8 @@
 import store from '@/assets/js/store'
 import { api } from '@/helpers/Helpers'
 import { GetIcon, GetConsultant, GetOrdinal } from '@/helpers/common';
-import { AVATARS, CONSULTANTS, POLLING_TIME } from '@/helpers/constants';
+import { AVATARS, CONSULTANTS } from '@/helpers/constants';
+// import { AVATARS, CONSULTANTS, POLLING_TIME } from '@/helpers/constants';
 
 const EstimatedTime = () => import(
   /* webpackChunkName: "estimatedtime-component" */ '@/components/EstimatedTime.vue'
@@ -133,10 +134,10 @@ export default {
   },
   async mounted () {
     this.whatIsMyNumber()
-    this.poll = setInterval(this.whatIsMyNumber, POLLING_TIME)
+    // this.poll = setInterval(this.whatIsMyNumber, POLLING_TIME)
   },
   beforeDestroy () {
-    clearInterval(this.poll);
+    // clearInterval(this.poll);
   }
 }
 </script>
