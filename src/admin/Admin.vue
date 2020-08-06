@@ -12,6 +12,7 @@
       <div class="input-container">
         <button type="submit" @click="refresh"><i class="fa fa-refresh"></i></button>
         <button type="submit" @click="updateEstimatedTime"><i class="fa fa-clock-o"></i> Readjust Time</button>
+        <!--button type="submit" @click="reminder"><i class="fa fa-envelope"></i></button-->
       </div>
 
       <div class="input-container">
@@ -81,7 +82,8 @@ export default {
       subject: '',
       date: '',
       consultant: ''
-    }
+    },
+    hasAccess: false
   }),
   methods: {
     cancelled: async function(data) {
@@ -99,8 +101,21 @@ export default {
       )
     },
     getConsultant (v) { return GetConsultant(v) },
+    logout() {
+      window.localStorage.removeItem('login')
+      this.$router.push('/admin');
+    },
     refresh() {
       location.reload()
+    },
+    reminder: async function() {
+      await this.getApptsByConsultantByDate()
+      this.appts.map(function (appt) {
+        appt.reminder = '1'
+        return appt
+      }).map(newuser => {
+        console.log(newuser)
+      })
     },
     reNumber: async function() {
       await this.getApptsByConsultantByDate()
@@ -108,7 +123,7 @@ export default {
         appt.apptnumber = idx.toString()
         return appt
       }).map(newuser => {
-        api.updateuser(newuser);
+        api.updateuser(newuser)
       });
     },
     sendMail: async function(msg, user) {
@@ -133,18 +148,21 @@ export default {
         appt.apptnumber = idx.toString()
         return appt
       }).map(newuser => {
-        api.updateuser(newuser);
+        api.updateuser(newuser)
       });
     }
   },
   async mounted () {
-    /*
-    if (this.password.store.name !== this.admin.store.name &&
-      this.password.store.pass !== this.admin.store.pass) {
-        this.$router.push(`/admin`)
-    }
-    */
-    
+    this.memory = JSON.parse(window.localStorage.getItem('login'))
+    if (this.memory) {
+      this.admin.store.name = this.memory[0].login.name
+      this.admin.store.pass = this.memory[0].login.pass
+      this.hasAccess = (this.password.store.name === this.admin.store.name && 
+        this.password.store.pass === this.admin.store.pass) ? true : false
+    } 
+
+    if (!this.hasAccess) { this.logout() }
+
     const [day, month, year] = ( new Date() ).toLocaleDateString().split("/")
     this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
     this.consultant = '0'

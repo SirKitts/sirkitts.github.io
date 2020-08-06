@@ -10,8 +10,8 @@
 
     <div v-if="user.store.status === '1'" class="input-container">
       <i class="fa fa-info icon"></i>
-      <input class="input-field" type="text" placeholder="You're currently in progress. Click Done when finished." disabled>
-      <button @click="done">Done</button>
+      <input class="input-field" type="text" placeholder="You're currently in progress." disabled>
+      <!--button @click="done">Done</button-->
     </div>
 
     <div class="input-container">

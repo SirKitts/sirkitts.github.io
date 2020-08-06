@@ -21,7 +21,7 @@
       <tr v-for="(item, index) in appts" :key="index">
           <td>
             <img :src="getUserIcon(item.avatar)" width="32" height="32" /> 
-            {{ item.name }} 
+            {{ item.name }}
           </td>
           <td>{{ item.appttime }}</td>
           <td>
@@ -37,6 +37,7 @@
               type="submit" class="btn" @click.prevent="cancelled(item._id)" >
                 <i class="fa fa-trash"></i>
             </button>
+            <span style="color: green;" v-if="item.reminder === '1'" ><i class="fa fa-envelope"></i></span>
           </td>
       </tr>
     </tbody>

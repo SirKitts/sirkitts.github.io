@@ -36,7 +36,7 @@ export default {
         minStr = (minutes > 0) ? minutes.toString().substring(0,2) + ' min(s) ' : ''
       }
       const hdng = 'Estimated time to be served/helped: '
-      const ovrtime = 'Overtime! Are you being served/helped?'
+      const ovrtime = 'Are you being served/helped?'
       this.remainingTime = (dt < 0 ) ? ovrtime : hdng + hrsStr + minStr
     }
   },

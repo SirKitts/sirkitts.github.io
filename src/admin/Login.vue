@@ -56,6 +56,7 @@ export default {
     hasErrors: true,
     incorrect: false,
     msg: [],
+    memory: []
   }),
   computed: {
     isDisabled: function(){
@@ -75,12 +76,22 @@ export default {
     }
   },
   methods: {
+    saveInMemory () {
+      var d = new Date()
+      this.memory.push({
+        date: d.toUTCString(), 
+        login: this.admin.store
+      })
+      const data = JSON.stringify(this.memory)
+      window.localStorage.setItem('login', data);
+    },
     viewAppointment () {
       if (this.password.store.name === this.name &&
         this.password.store.pass === this.pass) {
         this.admin.store.name = this.name
         this.admin.store.pass = this.pass
         this.incorrect = false
+        this.saveInMemory()
         this.$router.push(`/admin/appointments`)
       } else {
         this.incorrect = true

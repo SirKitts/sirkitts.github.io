@@ -35,6 +35,11 @@ Vue.use(VueRouter)
     name: 'AdminAppointments',
     component: () => import(/* webpackChunkName: "admin-appointments-components" */ '@/admin/Admin.vue')
   },
+  // {
+  //  path: '/admin/email-notification',
+  //  name: 'AdminEmailNotification',
+  //  component: () => import(/* webpackChunkName: "admin-email-notification-components" */ '@/admin/EmailNotification.vue')
+  // },
 ]
 
 const router = new VueRouter({
