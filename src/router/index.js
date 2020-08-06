@@ -21,11 +21,6 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "myappointment-components" */ '@/views/MyAppointment.vue')
   },
   {
-    path: '/reschedule-appointment/:id',
-    name: 'RescheduleAppointment',
-    component: () => import(/* webpackChunkName: "rescheduleappointment-components" */ '@/views/RescheduleAppointment.vue')
-  },
-  {
     path: '/make-an-appointment',
     name: 'MakeAnAppointment',
     component: () => import(/* webpackChunkName: "makeappointment-components" */ '@/views/MakeAnAppointment.vue')

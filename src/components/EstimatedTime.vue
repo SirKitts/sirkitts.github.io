@@ -1,11 +1,11 @@
 <template>
   <section>
-    <p>Estimated time to be served: {{ remainingTime }}</p>
+    <p>{{ remainingTime }}</p>
   </section>
 </template>
 
 <script>
-// import { POLLING_TIME } from '@/helpers/constants';
+import { POLLING_TIME } from '@/helpers/constants';
 
 export default {
   name: 'estimatedtime',
@@ -22,22 +22,32 @@ export default {
   methods: {
     estimate() {
       this.currentTime = new Date(new Date().getTime())
+      // console.log('this.currentTime', this.currentTime)
       const dt = (this.estimatedTime.getTime() - this.currentTime.getTime()) / 1000
-      const [hour, mins] = (dt / (60 * 60)).toString().split(".")
-      const minutes = Math.ceil(mins * 60)
-      let hrsStr = (hour > 0) ? hour + ' hr(s) ' : ''
-      let minStr = (minutes > 0) ? minutes.toString().substring(0,2) + ' min(s) ' : ''
-      this.remainingTime = hrsStr + minStr
+      let hrsStr = ''
+      let minStr = ''
+      console.log('dt', dt)
+      if (dt > 0) {
+        const [hour, mins] = (dt / (60 * 60)).toString().split(".")
+        const minutes = Math.ceil((mins / 100) * 60)
+        console.log('hour', hour)
+        console.log('mins', mins)
+        hrsStr = (hour > 0) ? hour + ' hr(s) ' : ''
+        minStr = (minutes > 0) ? minutes.toString().substring(0,2) + ' min(s) ' : ''
+      }
+      const hdng = 'Estimated time to be served/helped: '
+      const ovrtime = 'Overtime! Are you being served/helped?'
+      this.remainingTime = (dt < 0 ) ? ovrtime : hdng + hrsStr + minStr
     }
   },
   mounted () {
-    this.estimatedTime = new Date(this.apptdatetime)
-    this.currentTime = new Date(new Date().getTime())
+    this.estimatedTime = new Date(new Date(this.apptdatetime).getTime())
+    // console.log('this.estimatedTime', this.estimatedTime)
     this.estimate()
-    // this.etime = setInterval(this.estimate, POLLING_TIME)
+    this.etime = setInterval(this.estimate, POLLING_TIME)
   },
   beforeDestroy () {
-    // clearInterval(this.etime);
+    clearInterval(this.etime);
   }
 }
 </script>

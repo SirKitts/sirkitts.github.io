@@ -10,6 +10,11 @@
                 <Clock />
             </div>
           </th>
+          <th>
+            <button type="submit" @click.prevent="toggleTrash">
+              <i class="fa fa-trash"></i> {{ trash ? 'on' : 'off'}}
+            </button>
+          </th>
       </tr>
     </thead>
     <tbody>
@@ -25,6 +30,13 @@
             <button type="submit" class="btn" @click.prevent="start(item._id)" 
               v-show="index === 0 && item.status === '0'">start</button>
             <button type="submit" class="btn" @click.prevent="end(item._id)" v-show="index === 0">end</button>
+          </td>
+          <td>
+            <button 
+              v-show="(item.status === '0' && trash)"
+              type="submit" class="btn" @click.prevent="cancelled(item._id)" >
+                <i class="fa fa-trash"></i>
+            </button>
           </td>
       </tr>
     </tbody>
@@ -50,7 +62,8 @@ export default {
   },
   data: () => ({
     apptlist: 0,
-    appt: ''
+    appt: '',
+    trash: false
   }),
   methods: {
     getConsultant (v) {
@@ -90,10 +103,20 @@ export default {
     },
     async end(id) {
         this.appt = await api.getuser(id)
-        const sure = window.confirm('Are you sure?');
+        const sure = window.confirm('Done. Are you sure?');
         if (!sure) return;
         await api.deleteuser(id);
-        this.$emit('ended', this.appt.status);
+        this.$emit('ended', this.appt);
+    },
+    async cancelled(id) {
+        this.appt = await api.getuser(id)
+        const sure = window.confirm('Are you sure you want this cancelled?');
+        if (!sure) return;
+        await api.deleteuser(id);
+        this.$emit('cancelled', this.appt);
+    },
+    toggleTrash() {
+      this.trash = !this.trash
     }
   }
 }

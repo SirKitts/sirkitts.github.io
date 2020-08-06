@@ -5,7 +5,6 @@
     <div class="input-container">
       <i class="fa fa-user icon"></i>
       <input v-model="user.store.name" class="input-field" type="text" placeholder="Name" disabled>
-      <!--button v-if="user.store.status === '0'" @click="$router.push(`/reschedule-appointment/${appt._id}`)">Reschedule Appointment</button-->
       <button v-if="user.store.status === '0'" @click="cancelAppt">Cancel Appointment</button>
     </div>
 
@@ -21,8 +20,8 @@
     </div>
 
     <center>
-      <p><img class="img-round" :src="getUserIcon(user.store.avatar)" width="50%" height="50%"/></p>
-      <Notification :badge="getPosition()" />
+      <p><img class="img-round" :src="getUserIcon(user.store.avatar)" width="50%" height="50%" @click="refresh" /></p>
+      <Notification :badge="getPosition()" :status="user.store.status"/>
       <p>Consultant Name: {{ getConsultant (user.store.consultant) }}</p>
       <EstimatedTime 
          v-if="user.store.status === '0'"
@@ -36,11 +35,11 @@
 </template>
 
 <script>
+import axios from 'axios';
 import store from '@/assets/js/store'
 import { api } from '@/helpers/Helpers'
 import { GetIcon, GetConsultant, GetOrdinal } from '@/helpers/common';
-import { AVATARS, CONSULTANTS } from '@/helpers/constants';
-// import { AVATARS, CONSULTANTS, POLLING_TIME } from '@/helpers/constants';
+import { AVATARS, CONSULTANTS, POLLING_TIME, SENDMAIL_URL } from '@/helpers/constants';
 
 const EstimatedTime = () => import(
   /* webpackChunkName: "estimatedtime-component" */ '@/components/EstimatedTime.vue'
@@ -72,6 +71,13 @@ export default {
     appt: '',
     appts: [],
     user: store,
+    form: {
+      name: '',
+      email: '',
+      subject: '',
+      date: '',
+      consultant: ''
+    },
     poll: '',
   }),
   methods: {
@@ -79,16 +85,15 @@ export default {
       const id = this.$route.params.id
       const sure = window.confirm('Are you sure to cancel this appointment?');
       if (!sure) return;
-      await api.deleteuser(id);
-      this.logout()
+      await api.deleteuser(id)
+      await this.sendMail('Cancelled Appointment')
     },
     done: async function() {
       const id = this.$route.params.id
       const sure = window.confirm('Thank you. See you again next time.');
       if (!sure) return;
-      await api.deleteuser(id);
-      await this.reNumber;
-      this.logout()
+      await api.deleteuser(id)
+      await this.sendMail('Appointment Done')
     },
     getCurrentList: async function() {
       this.appts = await api.getusersbyconsultantbydate(
@@ -106,6 +111,9 @@ export default {
       window.localStorage.removeItem('user')
       this.$router.push('/login')
     },
+    refresh() {
+      location.reload()
+    },
     reNumber: async function() {
       await this.getCurrentList()
       this.appts.map(function (appt, idx) {
@@ -115,29 +123,40 @@ export default {
         api.updateuser(newuser);
       });
     },
+    sendMail: async function(msg) {
+      this.form.name = this.user.store.name
+      this.form.email = this.user.store.email
+      this.form.subject = msg
+      this.form.date = this.user.store.apptdatetime 
+      this.form.consultant = this.getConsultant (this.user.store.consultant)
+      await axios.post(SENDMAIL_URL, JSON.stringify(this.form))
+        .then(function () {})
+        .catch(function () {})
+    },
     whatIsMyNumber: async function() {
       this.appt = await api.getuser(this.$route.params.id)
       if (!this.appt) {
         this.logout()
+      } else {
+        this.user.store.avatar = this.appt.avatar
+        this.user.store.name = this.appt.name
+        this.user.store.email = this.appt.email
+        this.user.store.pass = this.appt.pass
+        this.user.store.consultant = this.appt.consultant
+        this.user.store.status = this.appt.status
+        this.user.store.apptnumber = this.appt.apptnumber
+        this.user.store.apptdate = this.appt.apptdate
+        this.user.store.appttime = this.appt.appttime
+        this.user.store.apptdatetime = this.appt.apptdatetime
       }
-      this.user.store.avatar = this.appt.avatar
-      this.user.store.name = this.appt.name
-      this.user.store.email = this.appt.email
-      this.user.store.pass = this.appt.pass
-      this.user.store.consultant = this.appt.consultant
-      this.user.store.status = this.appt.status
-      this.user.store.apptnumber = this.appt.apptnumber
-      this.user.store.apptdate = this.appt.apptdate
-      this.user.store.appttime = this.appt.appttime
-      this.user.store.apptdatetime = this.appt.apptdatetime
     }
   },
   async mounted () {
     this.whatIsMyNumber()
-    // this.poll = setInterval(this.whatIsMyNumber, POLLING_TIME)
+    this.poll = setInterval(this.whatIsMyNumber, POLLING_TIME)
   },
   beforeDestroy () {
-    // clearInterval(this.poll);
+    clearInterval(this.poll);
   }
 }
 </script>

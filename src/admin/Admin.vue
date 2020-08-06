@@ -10,7 +10,8 @@
     
     <div class="input-container">
       <div class="input-container">
-        
+        <button type="submit" @click="refresh"><i class="fa fa-refresh"></i></button>
+        <button type="submit" @click="updateEstimatedTime"><i class="fa fa-clock-o"></i> Readjust Time</button>
       </div>
 
       <div class="input-container">
@@ -24,18 +25,20 @@
 
     <ShowAll :appts="appts" :consultant="consultant" 
       @started="updateEstimatedTime"
-      @ended="updateEstimatedTime" />
+      @ended="ended"
+      @cancelled="cancelled" />
 
     <Footer />
   </section>
 </template>
 
 <script>
+import axios from 'axios';
 import store from '@/admin/js/store'
 import pass from '@/admin/js/pass'
 import { api } from '@/helpers/Helpers'
-import { CONSULTANTS } from '@/helpers/constants';
-// import { CONSULTANTS, POLLING_TIME } from '@/helpers/constants';
+import { GetConsultant } from '@/helpers/common';
+import { CONSULTANTS, POLLING_TIME, SENDMAIL_URL } from '@/helpers/constants';
 
 const ShowAll = () => import(
   /* webpackChunkName: "showall-component" */ '@/admin/ShowAll.vue'
@@ -72,13 +75,32 @@ export default {
     poll: '',
     admin: store,
     password: pass,
+    form: {
+      name: '',
+      email: '',
+      subject: '',
+      date: '',
+      consultant: ''
+    }
   }),
   methods: {
+    cancelled: async function(data) {
+      await this.sendMail('Cancelled Appointment', data)
+      await this.updateEstimatedTime()
+    },
+    ended: async function(data) {
+      await this.sendMail('Appointment Done', data)
+      await this.updateEstimatedTime()
+    },
     getApptsByConsultantByDate: async function() {
       this.appts = await api.getusersbyconsultantbydate(
           this.consultant,
           this.datepicker
       )
+    },
+    getConsultant (v) { return GetConsultant(v) },
+    refresh() {
+      location.reload()
     },
     reNumber: async function() {
       await this.getApptsByConsultantByDate()
@@ -89,10 +111,19 @@ export default {
         api.updateuser(newuser);
       });
     },
+    sendMail: async function(msg, user) {
+      this.form.name = user.name
+      this.form.email = user.email
+      this.form.subject = msg
+      this.form.date = user.apptdatetime 
+      this.form.consultant = this.getConsultant (user.consultant)
+      await axios.post(SENDMAIL_URL, JSON.stringify(this.form))
+        .then(function () {})
+        .catch(function () {})
+    },
     updateEstimatedTime: async function() {
       await this.getApptsByConsultantByDate()
       this.appts.map(function (appt, idx) {
-        // console.log('idx', idx)
         const estimatedTime = new Date(new Date().getTime() + (idx * 30 * 60 * 1000))
         const [day, month, year] = ( estimatedTime ).toLocaleDateString().slice(0,10).split("/")
         const [hour, minute] = ( estimatedTime ).toLocaleTimeString().slice(0,5).split(":")
@@ -118,10 +149,10 @@ export default {
     this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
     this.consultant = '0'
     await this.reNumber()
-    // this.poll = setInterval(this.reNumber, POLLING_TIME)
+    this.poll = setInterval(this.reNumber, POLLING_TIME)
   },
   beforeDestroy () {
-    // clearInterval(this.poll);
+    clearInterval(this.poll);
   }
 }
 </script>

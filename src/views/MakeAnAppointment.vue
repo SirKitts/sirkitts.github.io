@@ -44,7 +44,7 @@ import axios from 'axios';
 import store from '@/assets/js/store'
 import { api } from '@/helpers/Helpers';
 import { GetIcon, GetConsultant } from '@/helpers/common';
-import { AVATARS, CONSULTANTS } from '@/helpers/constants';
+import { AVATARS, CONSULTANTS, SENDMAIL_URL } from '@/helpers/constants';
 
 const FirstInFirstOut = () => import(
   /* webpackChunkName: "firstinfirstout-component" */ '@/components/FirstInFirstOut.vue'
@@ -81,8 +81,8 @@ export default {
       name: '',
       email: '',
       subject: 'Your New Appointment',
-      consultant: '',
-      date: ''
+      date: '',
+      consultant: ''
     }
   }),
   watch: {
@@ -99,6 +99,8 @@ export default {
       const estimatedTime = new Date(new Date().getTime() + (this.user.store.apptnumber * 30 * 60 * 1000))
       const [hour, minute] = ( estimatedTime ).toLocaleTimeString().slice(0,5).split(":")
       this.timepicker = hour + ':' + minute 
+      this.user.store.avatar = this.avatar
+      this.user.store.consultant = this.consultant
       this.user.store.apptdate = this.datepicker
       this.user.store.appttime = this.timepicker
       this.user.store.apptdatetime = [this.user.store.apptdate, this.user.store.appttime].join(" ")
@@ -107,7 +109,7 @@ export default {
     },
     dbCreateAppointment: async function(user) {
       const res = await api.createuser(user)
-      await this.onSubmit()
+      await this.sendEmail()
       this.$router.push(`/my-appointment/${res._id}`)
     },
     getCurrentList: async function() {
@@ -125,12 +127,12 @@ export default {
       window.localStorage.removeItem('user')
       this.$router.push('/login');
     },
-    onSubmit: async function() {
+    sendEmail: async function() {
       this.form.name = this.user.store.name
       this.form.email = this.user.store.email
+      this.form.date = this.user.store.apptdatetime
       this.form.consultant = this.getConsultant (this.user.store.consultant)
-      this.form.date = this.user.store.apptdate 
-      await axios.post('http://hexsoftstudio.com/php/sendMail.php', JSON.stringify(this.form))
+      await axios.post(SENDMAIL_URL, JSON.stringify(this.form))
         .then(function () {})
         .catch(function () {})
     }

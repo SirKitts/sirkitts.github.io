@@ -1,6 +1,7 @@
 <template>
   <router-link to="/my-appointment" class="notification">
-    <span>You are {{ badge }} in queue.</span>
+    <span v-if="status === '1'">In progress</span>
+    <span v-else>You are {{ badge }} in queue.</span>
     <span class="badge" v-show="badge">{{ badge }}</span>
   </router-link>
 </template>
@@ -9,7 +10,8 @@
 export default {
   name: 'notification',
   props: {
-    badge: [String, Number]
+    badge: [String, Number],
+    status: [String, Number]
   }
 }
 </script>
