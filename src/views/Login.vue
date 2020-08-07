@@ -16,7 +16,8 @@
 
     <div class="input-container">
       <i class="fa fa-clock-o icon"></i>
-      <input v-model="datepicker" class="input-field" type="date" readonly>
+      &nbsp;
+      <div class="current-date">{{ currentDate }}</div>
     </div>
 
     <div class="input-container">
@@ -66,6 +67,7 @@ export default {
     errorMessage: '',
     msg: [],
     logo: LOGO,
+    currentDate: (new Date()).toString().substr(0, 24)
   }),
   computed: {
     isDisabled: function(){

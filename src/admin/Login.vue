@@ -16,7 +16,7 @@
 
     <div class="input-container">
       <i class="fa fa-adjust icon"></i>
-      <input v-model="datepicker" class="input-field" type="date" disabled>
+      <input v-model="datepicker" class="input-field" type="date" readonly>
       <button type="submit" @click.prevent="viewAppointment" :disabled="isDisabled">View Appointments</button>
     </div>
 
