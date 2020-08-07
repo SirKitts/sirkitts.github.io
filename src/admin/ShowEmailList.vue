@@ -2,12 +2,12 @@
   <table id="customers">
     <thead>
       <tr>
-          <th>In Queue ({{ getQueueList() }}) {{ isFull() }}</th>
+          <th>In Queue ({{ getQueueList() }})</th>
           <th>Time</th>
           <th>
             <div class="timeswitch">
                 {{ getConsultant (consultant) }}
-                <button type="submit" @click="sendEmailNotification"><i class="fa fa-envelope"></i> Send Now ?</button>
+                <button type="submit" @click="sendAll(appts)"><i class="fa fa-envelope"></i> Send All</button>
             </div>
           </th>
       </tr>
@@ -21,8 +21,10 @@
           <td>{{ item.appttime }}</td>
           <td>
             {{ getOrdinal(parseInt(item.apptnumber) + 1) }}
-            <span v-if="sending" style="color: green;"> sending... </span>
-            <span v-if="sendingDone" style="color: green;"><i class="fa fa-envelope"></i></span>
+            <button v-if="item.reminder === '0'" type="submit" @click="sendEmailNotification(item)">
+              <i class="fa fa-envelope"></i> Send
+            </button>
+            <span v-else style="color: green;"><i class="fa fa-envelope"></i></span>
           </td>
       </tr>
     </tbody>
@@ -30,10 +32,13 @@
 </template>
 
 <script>
-import { AVATARS, CONSULTANTS, MAX_PEOPLE_PER_DAY } from '@/helpers/constants';
+import axios from 'axios';
+import { api } from '@/helpers/Helpers'
+import { SENDMAILREMINDER_URL } from '@/helpers/constants';
+import { GetIcon, GetConsultant } from '@/helpers/common';
 
 export default {
-    name: 'showall',
+    name: 'showemaillist',
     props: {
         appts: Array,
         consultant: [Number, String],
@@ -41,19 +46,17 @@ export default {
     },
     components: {},
     data: () => ({
-        eMessage: '',
-        sending: false,
-        sendingDone: false,
+      form: {
+        name: '',
+        email: '',
+        subject: '',
+        date: '',
+        consultant: ''
+      }
     }),
     methods: {
-        getConsultant (v) {
-            if (v === undefined) { v = this.getRandomInt(2) } 
-            return CONSULTANTS[v].name
-        },
-        getUserIcon (v) {
-            if (v === undefined || v >= 2) { v = this.getRandomInt(2) }
-            return AVATARS[v].avatar
-        },
+        getConsultant (v) { return GetConsultant(v) },
+        getUserIcon (v) { return GetIcon(v) },
         getOrdinal: function (n) {
             if (n === undefined ) {return null}
             var s = ['th','st','nd','rd']
@@ -63,18 +66,26 @@ export default {
         getQueueList() {
             return this.appts.length
         },
-        getRandomInt(max) {
-            return Math.floor(Math.random() * Math.floor(max));
+        sendAll(appts) {
+          appts.forEach(
+            element => {
+              this.sendEmailNotification(element)
+            });
         },
-        isFull () {
-            let checkFull = (this.appts.length >= MAX_PEOPLE_PER_DAY)
-            return checkFull ? 'Full' : ''
+        sendEmailNotification: async function(user) {
+          this.form.name = user.name
+          this.form.email = user.email
+          this.form.subject = 'Appointment Reminder'
+          this.form.date = user.apptdatetime 
+          this.form.consultant = this.getConsultant(user.consultant)
+          await axios.post(SENDMAILREMINDER_URL, JSON.stringify(this.form))
+            .then(function () {})
+            .catch(function () {})
+          await this.updateUserRemiderFlag(user)
         },
-        async sendEmailNotification() {
-          console.log('hey there!')
-        },
-        sleep(ms) {
-          return new Promise(resolve => setTimeout(resolve, ms));
+        updateUserRemiderFlag: async function(user) {
+          user.reminder = '1'
+          await api.updateuser(user)
         }
     }
 }

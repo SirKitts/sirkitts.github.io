@@ -4,13 +4,13 @@
 
     <div class="input-container">
       <i class="fa fa-adjust icon"></i>
-      <input v-model="datepicker" class="input-field" type="date" id="date" name="apptdate">
+      <input v-model="datepicker" class="input-field" type="date" id="date" name="apptdate" disabled>
       <button @click="$router.push(`/admin/appointments`)">Admin</button>
     </div>
     
     <div class="input-container">
       <div class="input-container">
-        <!--button type="submit" @click="sendEmailNow"><i class="fa fa-envelope"></i> Send Now ?</button-->
+        
       </div>
 
       <div class="input-container">
@@ -22,7 +22,8 @@
       </div>
     </div>
 
-    <ShowEmailList :appts="appts" :consultant="consultant" />
+    <ShowEmailList :appts="appts" :consultant="consultant" 
+      @reminder="reminder"/>
 
     <Footer />
   </section>
@@ -36,7 +37,7 @@ import { GetConsultant } from '@/helpers/common';
 import { CONSULTANTS } from '@/helpers/constants';
 
 const ShowEmailList = () => import(
-  /* webpackChunkName: "showall-component" */ '@/admin/ShowEmailList.vue'
+  /* webpackChunkName: "showemaillist-component" */ '@/admin/ShowEmailList.vue'
 );
 
 const Header = () => import(
@@ -64,7 +65,7 @@ export default {
   },
   data: () => ({
     datepicker: '',
-    consultant: '',
+    consultant: '0',
     consultants: CONSULTANTS,
     appts: [],
     admin: store,
@@ -87,14 +88,19 @@ export default {
       )
     },
     getConsultant (v) { return GetConsultant(v) },
-    sendEmailNow() {
-      this.sendNow = !this.sendNow
+    reminder: async function(data) {
+      await this.getApptsByConsultantByDate()
+      this.appts.map(function (appt) {
+        appt.reminder = data.toString()
+        return appt
+      }).map(newuser => {
+        api.updateuser(newuser)
+      })
     },
   },
-  async mounted () {
-    this.memory = JSON.parse(window.localStorage.getItem('login'))
-
-    const [day, month, year] = ( new Date() ).toLocaleDateString().split("/")
+  mounted () {
+    const tomorrow = new Date(new Date().getTime() + (1 * 60 * 60 * 1000))
+    const [day, month, year] = tomorrow.toLocaleDateString().split("/")
     this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
     this.consultant = '0'
   }

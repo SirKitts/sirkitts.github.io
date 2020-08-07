@@ -36,7 +36,7 @@
               v-show="(item.status === '0' && trash)"
               type="submit" class="btn" @click.prevent="cancelled(item._id)" >
                 <i class="fa fa-trash"></i>
-            </button>
+            </button>&nbsp;
             <span style="color: green;" v-if="item.reminder === '1'" ><i class="fa fa-envelope"></i></span>
           </td>
       </tr>
@@ -46,7 +46,8 @@
 
 <script>
 import { api } from '@/helpers/Helpers'
-import { AVATARS, CONSULTANTS, MAX_PEOPLE_PER_DAY } from '@/helpers/constants';
+import { MAX_PEOPLE_PER_DAY } from '@/helpers/constants';
+import { GetIcon, GetConsultant } from '@/helpers/common';
 
 const Clock = () => import(
   /* webpackChunkName: "clock-component" */ '@/components/Clock.vue'
@@ -67,18 +68,8 @@ export default {
     trash: false
   }),
   methods: {
-    getConsultant (v) {
-      if (v === undefined) { v = this.getRandomInt(2) } 
-      return CONSULTANTS[v].name
-    },
-    getConsultantIcon (v) {
-      if (v === undefined) { v = this.getRandomInt(2) } 
-      return CONSULTANTS[v].avatar
-    },
-    getUserIcon (v) {
-      if (v === undefined || v >= 2) { v = this.getRandomInt(2) }
-      return AVATARS[v].avatar
-    },
+    getConsultant (v) { return GetConsultant(v) },
+    getUserIcon (v) { return GetIcon(v) },
     getOrdinal: function (n) {
       if (n === undefined ) {return null}
       var s = ['th','st','nd','rd']
@@ -87,9 +78,6 @@ export default {
     },
     getQueueList() {
       return this.appts.length
-    },
-    getRandomInt(max) {
-      return Math.floor(Math.random() * Math.floor(max));
     },
     isFull () {
       let checkFull = (this.appts.length >= MAX_PEOPLE_PER_DAY)
@@ -100,7 +88,7 @@ export default {
         this.appt = await api.getuser(id)
         this.appt.status = '1'
         await api.updateuser(this.appt)
-        this.$emit('started', this.appt.status);
+        this.$emit('started', this.appt.status)
     },
     async end(id) {
         this.appt = await api.getuser(id)
@@ -114,7 +102,7 @@ export default {
         const sure = window.confirm('Are you sure you want this cancelled?');
         if (!sure) return;
         await api.deleteuser(id);
-        this.$emit('cancelled', this.appt);
+        this.$emit('cancelled', this.appt)
     },
     toggleTrash() {
       this.trash = !this.trash

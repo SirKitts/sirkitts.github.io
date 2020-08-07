@@ -12,7 +12,7 @@
       <div class="input-container">
         <button type="submit" @click="refresh"><i class="fa fa-refresh"></i></button>
         <button type="submit" @click="updateEstimatedTime"><i class="fa fa-clock-o"></i> Readjust Time</button>
-        <!--button type="submit" @click="reminder"><i class="fa fa-envelope"></i></button-->
+        <button type="submit" @click="$router.push('/admin/email-notification')"><i class="fa fa-envelope"></i></button>
       </div>
 
       <div class="input-container">
@@ -70,7 +70,7 @@ export default {
   },
   data: () => ({
     datepicker: '',
-    consultant: '',
+    consultant: '0',
     consultants: CONSULTANTS,
     appts: [],
     poll: '',
@@ -108,15 +108,6 @@ export default {
     refresh() {
       location.reload()
     },
-    reminder: async function() {
-      await this.getApptsByConsultantByDate()
-      this.appts.map(function (appt) {
-        appt.reminder = '1'
-        return appt
-      }).map(newuser => {
-        console.log(newuser)
-      })
-    },
     reNumber: async function() {
       await this.getApptsByConsultantByDate()
       this.appts.map(function (appt, idx) {
@@ -131,7 +122,7 @@ export default {
       this.form.email = user.email
       this.form.subject = msg
       this.form.date = user.apptdatetime 
-      this.form.consultant = this.getConsultant (user.consultant)
+      this.form.consultant = this.getConsultant(user.consultant)
       await axios.post(SENDMAIL_URL, JSON.stringify(this.form))
         .then(function () {})
         .catch(function () {})
