@@ -7,7 +7,7 @@
 <style>
 body, html {
   height: 100%;
-  margin: 0;
+  margin: 20px 10px 20px;
 }
 
 * {

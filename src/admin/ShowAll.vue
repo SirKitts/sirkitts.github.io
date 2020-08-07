@@ -1,47 +1,49 @@
 <template>
-  <table id="customers">
-    <thead>
-      <tr>
-          <th>In Queue ({{ getQueueList() }}) {{ isFull() }}</th>
-          <th>Time</th>
-          <th>
-            <div class="timeswitch">
-                {{ getConsultant (consultant) }}
-                &nbsp;<Clock />
-            </div>
-          </th>
-          <th>
-            <button type="submit" @click.prevent="toggleTrash">
-              <i class="fa fa-trash"></i> {{ trash ? 'on' : 'off'}}
-            </button>
-          </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(item, index) in appts" :key="index">
-          <td>
-            <img :src="getUserIcon(item.avatar)" width="32" height="32" /> 
-            {{ item.name }}
-          </td>
-          <td>{{ item.appttime }}</td>
-          <td>
-            {{ getOrdinal(parseInt(item.apptnumber) + 1) }}
-            <span style="color: green;" v-if="item.status === '1'"> in progress... </span>
-            <button type="submit" class="btn" @click.prevent="start(item._id)" 
-              v-show="index === 0 && item.status === '0'">start</button>
-            <button type="submit" class="btn" @click.prevent="end(item._id)" v-show="index === 0">end</button>
-          </td>
-          <td>
-            <button 
-              v-show="(item.status === '0' && trash)"
-              type="submit" class="btn" @click.prevent="cancelled(item._id)" >
-                <i class="fa fa-trash"></i>
-            </button>&nbsp;
-            <span style="color: green;" v-if="item.reminder === '1'" ><i class="fa fa-envelope"></i></span>
-          </td>
-      </tr>
-    </tbody>
-  </table>
+  <section>
+    <div class="clock"><Clock /></div>
+    <table id="customers">
+      <thead>
+        <tr>
+            <th>In Queue ({{ getQueueList() }}) {{ isFull() }}</th>
+            <th>Time</th>
+            <th>
+              <div class="timeswitch">
+                  {{ getConsultant (consultant) }}
+              </div>
+            </th>
+            <th>
+              <button type="submit" @click.prevent="toggleTrash">
+                <i class="fa fa-trash"></i> {{ trash ? 'on' : 'off'}}
+              </button>
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in appts" :key="index">
+            <td>
+              <img :src="getUserIcon(item.avatar)" width="32" height="32" />
+              {{ item.name }}
+            </td>
+            <td>{{ item.appttime }}</td>
+            <td>
+              {{ getOrdinal(parseInt(item.apptnumber) + 1) }}
+              <span style="color: green;" v-if="item.status === '1'"> in progress... </span>
+              <button type="submit" class="btn" @click.prevent="start(item._id)"
+                v-show="index === 0 && item.status === '0'">start</button>
+              <button type="submit" class="btn" @click.prevent="end(item._id)" v-show="index === 0">end</button>
+            </td>
+            <td>
+              <button
+                v-show="(item.status === '0' && trash)"
+                type="submit" class="btn" @click.prevent="cancelled(item._id)" >
+                  <i class="fa fa-trash"></i>
+              </button>&nbsp;
+              <span style="color: green;" v-if="item.reminder === '1'" ><i class="fa fa-envelope"></i></span>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </template>
 
 <script>

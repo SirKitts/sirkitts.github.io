@@ -1,6 +1,6 @@
 <template>
   <section>
-    <p>{{ remainingTime }}</p>
+    <p><b>{{ remainingTime }}</b> {{ message }}</p>
   </section>
 </template>
 
@@ -17,7 +17,8 @@ export default {
     etime: '',
     currentTime: '',
     estimatedTime: '',
-    remainingTime: ''
+    remainingTime: '',
+    message: ''
   }),
   methods: {
     estimate() {
@@ -31,9 +32,9 @@ export default {
         hrsStr = (hour > 0) ? hour + ' hr(s) ' : ''
         minStr = (minutes > 0) ? minutes.toString().substring(0,2) + ' min(s) ' : ''
       }
-      const hdng = 'Estimated time to be served/helped: '
+      this.message = (dt > 0 ) ? 'to be served/helped: ' : ''
       const ovrtime = 'Are you being served/helped?'
-      this.remainingTime = (dt < 0 ) ? ovrtime : hdng + hrsStr + minStr
+      this.remainingTime = (dt > 0 ) ? hrsStr + minStr : ovrtime
     }
   },
   mounted () {

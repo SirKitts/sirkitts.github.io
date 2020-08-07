@@ -4,7 +4,7 @@
 
     <div class="input-container">
       <i class="fa fa-adjust icon"></i>
-      <input v-model="datepicker" class="input-field" type="date" id="date" name="apptdate" disabled>
+      <input v-model="datepicker" class="input-field" type="date" id="date" name="apptdate" readonly>
       <button @click="$router.push(`/admin/appointments`)">Admin</button>
     </div>
     

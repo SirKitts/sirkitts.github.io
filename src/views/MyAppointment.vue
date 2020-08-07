@@ -4,19 +4,18 @@
 
     <div class="input-container">
       <i class="fa fa-user icon"></i>
-      <input v-model="user.store.name" class="input-field" type="text" placeholder="Name" disabled>
+      <input v-model="user.store.name" class="input-field" type="text" placeholder="Name" readonly>
       <button v-if="user.store.status === '0'" @click="cancelAppt">Cancel Appointment</button>
     </div>
 
     <div v-if="user.store.status === '1'" class="input-container">
       <i class="fa fa-info icon"></i>
-      <input class="input-field" type="text" placeholder="You're currently in progress." disabled>
-      <!--button @click="done">Done</button-->
+      <input class="input-field" type="text" placeholder="You're currently in progress." readonly>
     </div>
 
     <div class="input-container">
       <i class="fa fa-adjust icon"></i>
-      <input v-model="user.store.apptdate" class="input-field" type="date" disabled>
+      <input v-model="user.store.apptdate" class="input-field" type="date" readonly>
     </div>
 
     <center>
