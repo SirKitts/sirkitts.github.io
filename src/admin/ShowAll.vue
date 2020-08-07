@@ -7,7 +7,7 @@
           <th>
             <div class="timeswitch">
                 {{ getConsultant (consultant) }}
-                <Clock />
+                &nbsp;<Clock />
             </div>
           </th>
           <th>

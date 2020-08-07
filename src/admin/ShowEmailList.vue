@@ -6,8 +6,10 @@
           <th>Time</th>
           <th>
             <div class="timeswitch">
-                {{ getConsultant (consultant) }}
-                <button type="submit" @click="sendAll(appts)"><i class="fa fa-envelope"></i> Send All</button>
+                {{ getConsultant (consultant) }}&nbsp;
+                <button v-if="appts.length > 0" type="submit" @click="sendAll(appts)">
+                  <i class="fa fa-envelope"></i> Send All
+                </button>
             </div>
           </th>
       </tr>

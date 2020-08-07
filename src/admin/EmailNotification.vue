@@ -99,7 +99,7 @@ export default {
     },
   },
   mounted () {
-    const tomorrow = new Date(new Date().getTime() + (1 * 60 * 60 * 1000))
+    const tomorrow = new Date(new Date().getTime() + (24 * 60 * 60 * 1000))
     const [day, month, year] = tomorrow.toLocaleDateString().split("/")
     this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
     this.consultant = '0'
