@@ -43,6 +43,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 .img-round {
   border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 5px #999;
+}
+.img-round:hover {background-color: #3e8e41}
+.img-round:active {
+  background-color: #3e8e41;
+  box-shadow: 0 2px #666;
+  transform: translateY(4px);
 }
 
 .current-date {
@@ -51,4 +59,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
   padding: 6px 10px 6px;
   background-color: white;
   color: black;
+}
+
+.field {
+  display: flex;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  padding: 6px 10px 6px;
+  background-color: white;
+  color: black;
+  border-style: ridge;
+  width: 100%;
 }

@@ -1,6 +1,12 @@
 <template>
   <section style="max-width:500px;margin:auto">
-    <Header title="Book an appointment" />
+    <Header title="Login" />
+
+    <div class="input-container">
+      <i class="fa fa-clock-o icon"></i>
+      &nbsp;
+      <div class="current-date">{{ currentDate }}</div>
+    </div>
 
     <div class="input-container">
       <i class="fa fa-user icon"></i>
@@ -14,22 +20,11 @@
       <span v-if="msg.email" style="color: red; padding: 5px 5px;">&#x274C;</span>
     </div>
 
-    <div class="input-container">
-      <i class="fa fa-clock-o icon"></i>
-      &nbsp;
-      <div class="current-date">{{ currentDate }}</div>
-    </div>
-
-    <div class="input-container">
-      <i class="fa fa-adjust icon"></i>
-      <input class="input-field" type="text" disabled>
-      <button type="submit" @click.prevent="newAppointment" :disabled="isDisabled">New Appointment</button>
-      <button type="submit" @click.prevent="myAppointment" :disabled="isDisabled">My Appointment</button>
-    </div>
-
     <div class="input-container" style="justify-content: center;">
       <span style="color: red; font-family: Arial, Helvetica, sans-serif;">{{ errorMessage }}</span>
     </div>
+
+    <button type="submit" class="btn" @click.prevent="login" :disabled="isDisabled">Login</button>
 
     <Footer />
 
@@ -67,7 +62,7 @@ export default {
     errorMessage: '',
     msg: [],
     logo: LOGO,
-    currentDate: (new Date()).toString().substr(0, 24)
+    currentDate: (new Date()).toString().substr(0, 21)
   }),
   computed: {
     isDisabled: function(){
@@ -87,24 +82,21 @@ export default {
     }
   },
   methods: {
-    async myAppointment () {
+    async login () {
       this.appt = await api.getusernamebynameandemail(this.name, this.email);
       if (this.appt.length) {
         const id = this.appt[0]._id
         this.$router.push(`/my-appointment/${id}`)
       } else {
-        this.errorMessage = 'not found! please select New Appointment.'
-      }
-    },
-    async newAppointment () {
-      this.appt = await api.getusernamebynameandemail(this.name, this.email);
-      if (this.appt.length) {
-        this.errorMessage = 'already exist! please select My Appointment'
-      } else {
-        this.user.store.name = this.name
-        this.user.store.email = this.email
-        this.saveInMemory()
-        this.$router.push(`/make-an-appointment`)
+        const users = await api.getusersbyemail(this.email);
+        if (users.length) {
+          this.errorMessage = 'email address already used'
+        } else {
+          this.user.store.name = this.name
+          this.user.store.email = this.email
+          this.saveInMemory()
+          this.$router.push(`/make-an-appointment`)
+        }
       }
     },
     saveInMemory () {

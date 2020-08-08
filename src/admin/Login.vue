@@ -3,6 +3,11 @@
     <Header title="Login" />
 
     <div class="input-container">
+      <i class="fa fa-clock-o icon"></i>
+      <div class="current-date">{{ showDate(datepicker) }}</div>
+    </div>
+
+    <div class="input-container">
       <i class="fa fa-user icon"></i>
       <input v-model="name" class="input-field" type="text" placeholder="Name">
       <span v-if="msg.name" style="color: red; padding: 5px 5px;">&#x274C;</span>
@@ -14,11 +19,7 @@
       <span v-if="msg.pass" style="color: red; padding: 5px 5px;">&#x274C;</span>
     </div>
 
-    <div class="input-container">
-      <i class="fa fa-adjust icon"></i>
-      <input v-model="datepicker" class="input-field" type="date" readonly>
-      <button type="submit" @click.prevent="viewAppointment" :disabled="isDisabled">View Appointments</button>
-    </div>
+    <button type="submit" class="btn" @click.prevent="viewAppointment" :disabled="isDisabled">View Appointments</button>
 
     <div v-show="incorrect" class="input-container" style="justify-content: center;">
       <span style="color: red; font-family: Arial, Helvetica, sans-serif;">name or password incorrect !</span>
@@ -84,6 +85,9 @@ export default {
       })
       const data = JSON.stringify(this.memory)
       window.localStorage.setItem('login', data);
+    },
+    showDate(d) {
+      return (new Date(new Date(d)).toString().substr(0, 15))
     },
     viewAppointment () {
       if (this.password.store.name === this.name &&

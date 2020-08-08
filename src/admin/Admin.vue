@@ -3,8 +3,13 @@
     <Header title="Admin" />
 
     <div class="input-container">
-      <i class="fa fa-adjust icon"></i>
-      <input v-model="datepicker" class="input-field" type="date" id="date" name="apptdate">
+      <i class="fa fa-clock-o icon"></i>
+      <div class="current-date">{{ showDate(datepicker) }}</div>
+    </div>
+
+    <div class="input-container">
+      <i class="fa fa-clock-o  icon"></i>
+      <input v-model="datepicker" class="input-field" type="date">
       <button @click="$router.push(`/admin`)">Logout</button>
     </div>
     
@@ -24,7 +29,7 @@
       </div>
     </div>
 
-    <ShowAll :appts="appts" :consultant="consultant" 
+    <ShowAll :appts="appts" :consultant="consultant" :isToday="isToday" :apptDate="datepicker"
       @started="updateEstimatedTime"
       @ended="ended"
       @cancelled="cancelled" />
@@ -60,14 +65,6 @@ export default {
     Header,
     Footer
   },
-  watch: {
-    datepicker: function() {
-      this.getApptsByConsultantByDate()
-    },
-    consultant: function() {
-      this.getApptsByConsultantByDate()
-    }
-  },
   data: () => ({
     datepicker: '',
     consultant: '0',
@@ -83,8 +80,19 @@ export default {
       date: '',
       consultant: ''
     },
-    hasAccess: false
+    hasAccess: false,
+    dateToday: '',
+    isToday: true,
   }),
+  watch: {
+    datepicker: function() {
+      this.isToday = (this.dateToday === this.datepicker)
+      this.getApptsByConsultantByDate()
+    },
+    consultant: function() {
+      this.getApptsByConsultantByDate()
+    }
+  },
   methods: {
     cancelled: async function(data) {
       await this.sendMail('Cancelled Appointment', data)
@@ -103,7 +111,7 @@ export default {
     getConsultant (v) { return GetConsultant(v) },
     logout() {
       window.localStorage.removeItem('login')
-      this.$router.push('/admin');
+      this.$router.push('/admin')
     },
     refresh() {
       location.reload()
@@ -126,6 +134,9 @@ export default {
       await axios.post(SENDMAIL_URL, JSON.stringify(this.form))
         .then(function () {})
         .catch(function () {})
+    },
+    showDate(d) {
+      return (new Date(new Date(d)).toString().substr(0, 15))
     },
     updateEstimatedTime: async function() {
       await this.getApptsByConsultantByDate()
@@ -157,6 +168,8 @@ export default {
     const [day, month, year] = ( new Date() ).toLocaleDateString().split("/")
     this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
     this.consultant = '0'
+    this.dateToday = this.datepicker
+    this.isToday = (this.dateToday === this.datepicker)
     await this.reNumber()
     this.poll = setInterval(this.reNumber, POLLING_TIME)
   },

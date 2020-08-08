@@ -11,8 +11,8 @@ Vue.use(VueFlashMessage, {
 });
 
 const vm = new Vue();
-// const baseURL = 'http://localhost:5000/users/';
-const baseURL = 'https://nameless-woodland-38449.herokuapp.com/users/';
+const baseURL = 'http://localhost:5000/users/';
+// const baseURL = 'https://nameless-woodland-38449.herokuapp.com/users/';
 
 const handleError = fn => (...params) =>
   fn(...params).catch(error => {
@@ -46,6 +46,10 @@ export const api = {
   }),
   getusernamebynameandemail: handleError(async (id, email) => {
     const res = await axios.get(baseURL + 'name/' + id +  '/email/' + email);
+    return res.data;
+  }),
+  getusersbyemail: handleError(async id => {
+    const res = await axios.get(baseURL + 'email/' + id);
     return res.data;
   }),
   getusersbydate: handleError(async id => {

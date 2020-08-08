@@ -20,21 +20,36 @@ export default {
     remainingTime: '',
     message: ''
   }),
+  watch: {
+    remainingTime: function() {
+      this.$emit('isUpdateTime', this.remainingTime);
+    }
+  },
   methods: {
     estimate() {
       this.currentTime = new Date(new Date().getTime())
       const dt = (this.estimatedTime.getTime() - this.currentTime.getTime()) / 1000
       let hrsStr = ''
       let minStr = ''
+      this.remainingTime = ''
+      this.message = ''
       if (dt > 0) {
-        const [hour, mins] = (dt / (60 * 60)).toString().split(".")
-        const minutes = Math.ceil((mins / 100) * 60)
-        hrsStr = (hour > 0) ? hour + ' hr(s) ' : ''
+        const hrsmins = (dt / (60 * 60))
+        const hrsAndMinutes = hrsmins.toString().split(".")
+        const hours = hrsAndMinutes[0]
+        const minutes = Math.ceil((hrsmins - hours) * 59)
+        hrsStr = (hours > 0) ? hours + ' hr(s) ' : ''
         minStr = (minutes > 0) ? minutes.toString().substring(0,2) + ' min(s) ' : ''
+        this.message = 'to be served/helped'
+        if (hours > 24) {
+          const days= (hours / 24).toString().split(".")
+          this.remainingTime = days[0] + ' day(s) '
+        } else {
+          this.remainingTime = hrsStr + minStr
+        }
+      } else {
+        this.remainingTime = 'Are you being served/helped?'
       }
-      this.message = (dt > 0 ) ? 'to be served/helped: ' : ''
-      const ovrtime = 'Are you being served/helped?'
-      this.remainingTime = (dt > 0 ) ? hrsStr + minStr : ovrtime
     }
   },
   mounted () {

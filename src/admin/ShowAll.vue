@@ -28,9 +28,16 @@
             <td>
               {{ getOrdinal(parseInt(item.apptnumber) + 1) }}
               <span style="color: green;" v-if="item.status === '1'"> in progress... </span>
-              <button type="submit" class="btn" @click.prevent="start(item._id)"
-                v-show="index === 0 && item.status === '0'">start</button>
-              <button type="submit" class="btn" @click.prevent="end(item._id)" v-show="index === 0">end</button>
+              <button
+                v-show="isToday === true && index === 0 && item.status === '0'"
+                type="submit" class="btn" @click.prevent="start(item._id)">
+                start
+              </button>
+              <button
+                v-show="isToday === true && index === 0"
+                type="submit" class="btn" @click.prevent="end(item._id)">
+                end
+              </button>
             </td>
             <td>
               <button
@@ -59,7 +66,9 @@ export default {
   name: 'showall',
   props: {
       appts: Array,
-      consultant: [Number, String]
+      consultant: [Number, String],
+      isToday: Boolean,
+      apptDate: [Date, String]
   },
   components: {
     Clock
@@ -71,6 +80,9 @@ export default {
   }),
   methods: {
     getConsultant (v) { return GetConsultant(v) },
+    getDate() {
+      return (new Date(new Date(this.apptDate)).toString().substr(0, 16))
+    },
     getUserIcon (v) { return GetIcon(v) },
     getOrdinal: function (n) {
       if (n === undefined ) {return null}

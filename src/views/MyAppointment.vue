@@ -3,19 +3,18 @@
     <Header title="My appointment" />
 
     <div class="input-container">
+      <i class="fa fa-adjust icon"></i>
+      <div class="current-date">{{ showDate(apptDate) }}</div>
+    </div>
+
+    <div class="input-container">
       <i class="fa fa-user icon"></i>
-      <input v-model="user.store.name" class="input-field" type="text" placeholder="Name" readonly>
-      <button v-if="user.store.status === '0'" @click="cancelAppt">Cancel Appointment</button>
+      <div class="field">{{ user.store.name }}</div>
     </div>
 
     <div v-if="user.store.status === '1'" class="input-container">
       <i class="fa fa-info icon"></i>
-      <input class="input-field" type="text" placeholder="You're currently in progress." readonly>
-    </div>
-
-    <div class="input-container">
-      <i class="fa fa-adjust icon"></i>
-      <input v-model="user.store.apptdate" class="input-field" type="date" readonly>
+      <div class="field">You're currently in progress.</div>
     </div>
 
     <center>
@@ -24,10 +23,14 @@
       <p>Consultant Name: {{ getConsultant (user.store.consultant) }}</p>
       <EstimatedTime 
          v-if="user.store.status === '0'"
-        :apptdatetime="user.store.apptdatetime" :status="user.store.status"/>
+        :apptdatetime="user.store.apptdatetime" :status="user.store.status"
+        @isUpdateTime="whatIsMyNumber" />
     </center>
 
-    <button type="submit" class="btn" @click="logout">Logout</button>
+    <div class="input-container">
+      <button v-if="user.store.status === '0'" @click="cancelAppt">Cancel Appointment</button>
+      <button type="submit" class="btn" @click="logout">Logout</button>
+    </div>
 
     <Footer />
   </section>
@@ -67,6 +70,7 @@ export default {
   data: () => ({
     avatars: AVATARS,
     consultants: CONSULTANTS,
+    apptDate: '',
     appt: '',
     appts: [],
     user: store,
@@ -131,6 +135,8 @@ export default {
       await axios.post(SENDMAIL_URL, JSON.stringify(this.form))
         .then(function () {})
         .catch(function () {})
+    },showDate(d) {
+      return (new Date(new Date(d)).toString().substr(0, 15))
     },
     whatIsMyNumber: async function() {
       this.appt = await api.getuser(this.$route.params.id)
@@ -147,12 +153,13 @@ export default {
         this.user.store.apptdate = this.appt.apptdate
         this.user.store.appttime = this.appt.appttime
         this.user.store.apptdatetime = this.appt.apptdatetime
+        this.apptDate = new Date(new Date(this.appt.apptdatetime)).toString().substr(0, 21)
       }
     }
   },
   async mounted () {
-    this.whatIsMyNumber()
-    this.poll = setInterval(this.whatIsMyNumber, POLLING_TIME)
+    await this.whatIsMyNumber()
+    this.poll = setInterval(await this.whatIsMyNumber, POLLING_TIME)
   },
   beforeDestroy () {
     clearInterval(this.poll);

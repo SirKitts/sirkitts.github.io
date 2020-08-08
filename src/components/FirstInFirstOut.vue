@@ -10,16 +10,16 @@
     </thead>
     <tbody>
       <tr v-for="(item, index) in appts" :key="index">
-          <td v-if="item.name === user.store.name || index < 4 || index > appts.length - 1">
+          <td v-if="item.name === user.store.name || index < 3 || index >= appts.length - 1">
             <img :src="getUserIcon(item.avatar)" width="32" height="32" /> 
             {{ item.name === user.store.name ? item.name : '******' }} 
           </td>
-          <td v-if="item.name === user.store.name || index < 4 || index > appts.length - 1">
+          <td v-if="item.name === user.store.name || index < 3 || index >= appts.length - 1">
             <img 
                 :src="getConsultantIcon(item.consultant)" width="32" height="32"
-                v-show="item.name === user.store.name || index === 0"/> 
-            {{ (item.name === user.store.name || index === 0) ? getConsultant (item.consultant) : '' }}
-            {{ (item.name === user.store.name || index === 0) ? getOrdinal(index + 1) : '' }}
+                v-show="item.name === user.store.name || index === 0 || (index === appts.length - 1)"/>
+            {{ (item.name === user.store.name || index === 0 || (index === appts.length - 1)) ? getConsultant (item.consultant) : '' }}
+            {{ (item.name === user.store.name || index === 0 || (index === appts.length - 1)) ? getOrdinal(index + 1) : '' }}
             <button v-show="item.name === user.store.name">
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>

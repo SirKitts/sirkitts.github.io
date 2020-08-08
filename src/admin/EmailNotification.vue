@@ -4,13 +4,12 @@
 
     <div class="input-container">
       <i class="fa fa-adjust icon"></i>
-      <input v-model="datepicker" class="input-field" type="date" id="date" name="apptdate" readonly>
-      <button @click="$router.push(`/admin/appointments`)">Admin</button>
+      <div class="current-date">{{ showDate(tomorrow) }}</div>
     </div>
     
     <div class="input-container">
       <div class="input-container">
-        
+        <button @click="$router.push(`/admin/appointments`)">Admin</button>
       </div>
 
       <div class="input-container">
@@ -55,15 +54,8 @@ export default {
     Header,
     Footer
   },
-  watch: {
-    datepicker: function() {
-      this.getApptsByConsultantByDate()
-    },
-    consultant: function() {
-      this.getApptsByConsultantByDate()
-    }
-  },
   data: () => ({
+    tomorrow: new Date(new Date().getTime() + (24 * 60 * 60 * 1000)),
     datepicker: '',
     consultant: '0',
     consultants: CONSULTANTS,
@@ -80,6 +72,14 @@ export default {
     hasAccess: false,
     sendNow: false,
   }),
+  watch: {
+    datepicker: function() {
+      this.getApptsByConsultantByDate()
+    },
+    consultant: function() {
+      this.getApptsByConsultantByDate()
+    }
+  },
   methods: {
     getApptsByConsultantByDate: async function() {
       this.appts = await api.getusersbyconsultantbydate(
@@ -97,10 +97,13 @@ export default {
         api.updateuser(newuser)
       })
     },
+    showDate(d) {
+      return d.toString().substr(0, 15)
+    },
   },
   mounted () {
-    const tomorrow = new Date(new Date().getTime() + (24 * 60 * 60 * 1000))
-    const [day, month, year] = tomorrow.toLocaleDateString().split("/")
+    // const tomorrow = new Date(new Date().getTime() + (24 * 60 * 60 * 1000))
+    const [day, month, year] = this.tomorrow.toLocaleDateString().split("/")
     this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
     this.consultant = '0'
   }

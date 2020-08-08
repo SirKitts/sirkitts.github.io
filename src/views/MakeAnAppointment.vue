@@ -1,16 +1,21 @@
 <template>
   <section style="max-width:500px;margin:auto">
-    <Header title="Book an appointment" />
+    <Header title="New appointment" />
 
     <div class="input-container">
-      <i class="fa fa-user icon"></i>
-      <input v-model="name" class="input-field" type="text" placeholder="Name" disabled>
-      <button @click="logout">Disregard</button>
+      <i class="fa fa-clock-o icon"></i>
+      <div class="current-date">{{ showDate(datepicker) }}</div>
     </div>
 
     <div class="input-container">
-      <i class="fa fa-adjust icon"></i>
+      <i class="fa fa-user icon"></i>
+      <div class="field">{{ name }}</div>
+    </div>
+
+    <div class="input-container">
+      <i class="fa fa-clock-o icon"></i>
       <input v-model="datepicker" class="input-field" type="date">
+      <button @click="logout">Disregard</button>
     </div>
     
     <div class="input-container">
@@ -135,6 +140,9 @@ export default {
       await axios.post(SENDMAIL_URL, JSON.stringify(this.form))
         .then(function () {})
         .catch(function () {})
+    },
+    showDate(d) {
+      return (new Date(new Date(d)).toString().substr(0, 15))
     }
   },
   async mounted () {
