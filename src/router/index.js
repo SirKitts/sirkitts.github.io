@@ -11,34 +11,19 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import(/* webpackChunkName: "login-components" */ '@/views/Login.vue')
+    path: '/reserve',
+    name: 'Reserve',
+    component: () => import(/* webpackChunkName: "reserve-components" */ '@/views/Reserve.vue')
   },
   {
-    path: '/my-appointment/:id',
-    name: 'MyAppointment',
-    component: () => import(/* webpackChunkName: "myappointment-components" */ '@/views/MyAppointment.vue')
+    path: '/my-reservation/:id',
+    name: 'MyReservation',
+    component: () => import(/* webpackChunkName: "myreservation-components" */ '@/views/MyReservation.vue')
   },
   {
-    path: '/make-an-appointment',
-    name: 'MakeAnAppointment',
-    component: () => import(/* webpackChunkName: "makeappointment-components" */ '@/views/MakeAnAppointment.vue')
-  },
-  {
-    path: '/admin',
-    name: 'Admin',
-    component: () => import(/* webpackChunkName: "admin-login-components" */ '@/admin/Login.vue')
-  },
-  {
-    path: '/admin/appointments',
+    path: '/admin/reservations',
     name: 'AdminAppointments',
     component: () => import(/* webpackChunkName: "admin-appointments-components" */ '@/admin/Admin.vue')
-  },
-  {
-    path: '/admin/email-notification',
-    name: 'AdminEmailNotification',
-    component: () => import(/* webpackChunkName: "admin-email-notification-components" */ '@/admin/EmailNotification.vue')
   },
 ]
 

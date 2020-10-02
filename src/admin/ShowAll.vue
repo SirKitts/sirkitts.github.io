@@ -4,11 +4,11 @@
     <table id="customers">
       <thead>
         <tr>
-            <th>In Queue ({{ getQueueList() }}) {{ isFull() }}</th>
+            <th>Reservation ({{ getQueueList() }}) {{ isFull() }}</th>
             <th>Time</th>
             <th>
               <div class="timeswitch">
-                  {{ getConsultant (consultant) }}
+                  Number of People
               </div>
             </th>
             <th>
@@ -21,32 +21,28 @@
       <tbody>
         <tr v-for="(item, index) in appts" :key="index">
             <td>
-              <img :src="getUserIcon(item.avatar)" width="32" height="32" />
+              <img :src="getUserIcon(item.avatar || 0)" width="32" height="32" />
               {{ item.name }}
             </td>
-            <td>{{ item.appttime }}</td>
-            <td>
-              {{ getOrdinal(parseInt(item.apptnumber) + 1) }}
-              <span style="color: green;" v-if="item.status === '1'"> in progress... </span>
-              <button
-                v-show="isToday === true && index === 0 && item.status === '0'"
-                type="submit" class="btn" @click.prevent="start(item._id)">
-                start
-              </button>
-              <button
-                v-show="isToday === true && index === 0"
-                type="submit" class="btn" @click.prevent="end(item._id)">
-                end
-              </button>
+            <td>{{ showTime(item.appttime) }}</td>
+            <td style="text-align: right;">
+              {{ item.numpax }}
             </td>
             <td>
+              <button type="submit" class="btn" @click.prevent="end(item._id)">end</button>
               <button
-                v-show="(item.status === '0' && trash)"
+                v-show="trash"
                 type="submit" class="btn" @click.prevent="cancelled(item._id)" >
-                  <i class="fa fa-trash"></i>
+                  <span style="color: red;"><i class="fa fa-trash"></i></span>
               </button>&nbsp;
-              <span style="color: green;" v-if="item.reminder === '1'" ><i class="fa fa-envelope"></i></span>
             </td>
+        </tr>
+        <tr>
+            <td colspan="2">Total:</td>
+            <td style="text-align: right;">
+              {{ computeNumberOfGuests() }}
+            </td>
+            <td></td>
         </tr>
       </tbody>
     </table>
@@ -54,9 +50,10 @@
 </template>
 
 <script>
-import { api } from '@/helpers/Helpers'
+import { api } from '@/helpers/api'
+import { ShowTime } from '@/helpers/common';
 import { MAX_PEOPLE_PER_DAY } from '@/helpers/constants';
-import { GetIcon, GetConsultant } from '@/helpers/common';
+import { GetIcon } from '@/helpers/common';
 
 const Clock = () => import(
   /* webpackChunkName: "clock-component" */ '@/components/Clock.vue'
@@ -66,9 +63,7 @@ export default {
   name: 'showall',
   props: {
       appts: Array,
-      consultant: [Number, String],
-      isToday: Boolean,
-      apptDate: [Date, String]
+      apptDate: [Date, String],
   },
   components: {
     Clock
@@ -79,17 +74,28 @@ export default {
     trash: false
   }),
   methods: {
-    getConsultant (v) { return GetConsultant(v) },
-    getDate() {
-      return (new Date(new Date(this.apptDate)).toString().substr(0, 16))
+    async cancelled(id) {
+        this.appt = await api.getcustomer(id)
+        const sure = window.confirm('Are you sure you want this cancelled?');
+        if (!sure) return;
+        await api.deletecustomer(id);
+        this.$emit('cancelled', this.appt)
+    },
+    async end(id) {
+        this.appt = await api.getcustomer(id)
+        const sure = window.confirm('Lunch/Dinner Done. Are you sure?');
+        if (!sure) return;
+        await api.deletecustomer(id);
+        this.$emit('ended', this.appt);
+    },
+    computeNumberOfGuests() {
+      let total = 0
+      this.appts.map(item => { 
+        total += parseInt(item.numpax)
+      })
+      return total
     },
     getUserIcon (v) { return GetIcon(v) },
-    getOrdinal: function (n) {
-      if (n === undefined ) {return null}
-      var s = ['th','st','nd','rd']
-      var v = n % 100
-      return n+(s[(v-20)%10]||s[v]||s[0])
-    },
     getQueueList() {
       return this.appts.length
     },
@@ -98,25 +104,8 @@ export default {
       this.$emit('isfull', checkFull);
       return checkFull ? 'Full' : ''
     },
-    async start(id) {
-        this.appt = await api.getuser(id)
-        this.appt.status = '1'
-        await api.updateuser(this.appt)
-        this.$emit('started', this.appt.status)
-    },
-    async end(id) {
-        this.appt = await api.getuser(id)
-        const sure = window.confirm('Done. Are you sure?');
-        if (!sure) return;
-        await api.deleteuser(id);
-        this.$emit('ended', this.appt);
-    },
-    async cancelled(id) {
-        this.appt = await api.getuser(id)
-        const sure = window.confirm('Are you sure you want this cancelled?');
-        if (!sure) return;
-        await api.deleteuser(id);
-        this.$emit('cancelled', this.appt)
+    showTime(t) {
+      return ShowTime(t)
     },
     toggleTrash() {
       this.trash = !this.trash

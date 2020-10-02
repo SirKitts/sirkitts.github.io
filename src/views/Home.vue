@@ -1,22 +1,18 @@
 <template>
   <main class="main-container">
-    <Login />
+    <Reserve />
   </main>
 </template>
 
 <script>
-const Login = () => import(
-  /* webpackChunkName: "login-component" */ '@/views/Login.vue'
+const Reserve = () => import(
+  /* webpackChunkName: "login-component" */ '@/views/Reserve.vue'
 );
 
 export default {
   name: 'home',
   components: {
-    Login
+    Reserve
   }
 }
 </script>
-
-<style scoped>
-
-</style>
