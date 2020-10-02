@@ -33,10 +33,10 @@
     $numpax = $_REQUEST['numpax'];
     $date = $_REQUEST['date'];
     $urllink = $input['urllink'];
-    $message = 'Your reservation has been confirmed: ' + 
-        'Date:' + $date + 
-        'Number of guests:' + $numpax;
-        'Confirmation url:' + urllink;
+    $message = 'Your reservation has been <msg>. ' .
+        'Date:' . $date .
+        'Number of guests:' . $numpax .
+        'Confirmation url:' . urllink;
     */
 
     $name = $input['name'];
@@ -52,7 +52,7 @@
         $msg = 'cancelled';
     } else if ($subject === 'Reservation Confirmation') {
         $msg = 'confirmed';
-        $confirmationUrl = '<p>Confirmation Url: ' . $urllink . '</p>'; 
+        $confirmationUrl = '<p>Confirmation Url: <a href="' . $urllink . '">Click here</a></p>'; 
     } 
 
     $subject = 'Country Sushi: ' . $subject;

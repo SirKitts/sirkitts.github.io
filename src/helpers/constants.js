@@ -1,6 +1,6 @@
 export const BASE_AVATAR_URL = 'http://hexsoftstudio.com/images/avatar/avatar';
 export const LOGO = 'http://www.hexsoftstudio.com/training/wp-content/uploads/2020/03/HS-logo2020.5-90x90.png';
-export const RESERVATION_LINK = 'http://localhost:8080/my-reservation/';
+export const RESERVATION_LINK = 'https://shielded-ocean-32410.herokuapp.com/my-reservation/';
 export const SENDMAIL_URL = 'http://hexsoftstudio.com/php/sendMailReservation.php';
 export const SENDMAILREMINDER_URL = 'http://hexsoftstudio.com/php/sendMailReminder.php';
 export const MAX_PEOPLE_PER_DAY = 50;
