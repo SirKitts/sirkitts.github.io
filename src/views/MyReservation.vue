@@ -21,7 +21,7 @@
     </div>
 
     <div class="input-container">
-      <button type="submit" class="btn" @click="cancelAppt">Cancel Reservation</button>
+      <button type="submit" class="btncancel" @click="cancelAppt">Cancel Reservation</button>
     </div>
 
     <Footer />
@@ -70,7 +70,7 @@ export default {
       if (!sure) return;
       await api.deletecustomer(id)
       await this.sendMail('Cancelled Reservation')
-      this.$router.push('/reserve')
+      this.$router.push('/')
     },
     getUserIcon (v) { return GetIcon(v) },
     sendMail: async function(msg) {
@@ -97,6 +97,7 @@ export default {
       this.user.store.avatar = this.appt.avatar
       this.user.store.name = this.appt.name
       this.user.store.email = this.appt.email
+      this.user.store.mobile = this.appt.mobile
       this.user.store.apptdate = this.appt.apptdate
       this.user.store.appttime = this.appt.appttime
       this.user.store.numpax = this.appt.numpax

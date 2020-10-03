@@ -11,24 +11,19 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/reserve',
-    name: 'Reserve',
-    component: () => import(/* webpackChunkName: "reserve-components" */ '@/views/Reserve.vue')
-  },
-  {
     path: '/my-reservation/:id',
     name: 'MyReservation',
     component: () => import(/* webpackChunkName: "myreservation-components" */ '@/views/MyReservation.vue')
   },
   {
-    path: '/admin/reservations',
-    name: 'AdminAppointments',
-    component: () => import(/* webpackChunkName: "admin-appointments-components" */ '@/admin/Admin.vue')
+    path: '/admin',
+    name: 'AdminReservations',
+    component: () => import(/* webpackChunkName: "admin-reservations-components" */ '@/admin/Admin.vue')
   },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

@@ -9,6 +9,12 @@
     </div>
 
     <div class="input-container">
+      <i class="fa fa-phone icon"></i>
+      <input v-model="mobile" class="input-field" type="text" placeholder="Mobile">
+      <span v-if="msg.mobile" style="color: red; padding: 5px 5px;">&#x274C;</span>
+    </div>
+
+    <div class="input-container">
       <i class="fa fa-envelope icon"></i>
       <input v-model="email" class="input-field" type="text" placeholder="Email">
       <span v-if="msg.email" style="color: red; padding: 5px 5px;">&#x274C;</span>
@@ -27,11 +33,23 @@
       <input class="input-field"  type="number" v-model="numpax" size=10 min="1" max="1000">
     </div>
 
-    <div class="input-container" style="justify-content: center;">
-      <span style="color: red; font-family: Arial, Helvetica, sans-serif;">{{ errorMessage }}</span>
+    <div class="input-container">
+        <span style="font-size: small; font-family: Arial, Helvetica, sans-serif; padding-top: 20px;">
+        For offline reservation, please call {{ contact }}
+        </span>
+    </div>
+
+    <div v-show="message" class="input-container" style="justify-content: center;">
+        <span style="font-size: small; font-family: Arial, Helvetica, sans-serif; padding-top: 20px;">
+        {{ message }}
+        </span>
     </div>
 
     <button type="submit" class="btn" @click.prevent="reserve" :disabled="isDisabled">Confirm Reservation</button>
+
+    <div class="input-container" style="justify-content: center;">
+      <span style="color: red; font-family: Arial, Helvetica, sans-serif;">{{ errorMessage }}</span>
+    </div>
 
     <Footer />
 
@@ -43,7 +61,7 @@ import axios from 'axios';
 import store from '@/assets/js/store'
 import { api } from '@/helpers/api';
 import { ShowDate, ShowTime } from '@/helpers/common';
-import { AVATARS, RESERVATION_LINK, SENDMAIL_URL } from '@/helpers/constants';
+import { AVATARS, OFFLINE_RESERVATION, RESERVATION_LINK, SENDMAIL_URL } from '@/helpers/constants';
 
 const Header = () => import(
   /* webpackChunkName: "header-component" */ '@/components/Header.vue'
@@ -63,23 +81,27 @@ export default {
     avatar: '0',
     name: '',
     email: '',
+    mobile: '',
     datepicker: new Date().toISOString().substr(0, 10),
     timepicker: '',
     numpax: 1,
     form: {
       name: '',
       email: '',
+      mobile: '',
       subject: '',
       date: '',
       numpax: '',
       urllink: '',
     },
+    contact: OFFLINE_RESERVATION,
     avatars: AVATARS,
     appt: '',
     user: store,
     memory: [],
     hasErrors: true,
     errorMessage: '',
+    message: '',
     msg: []
   }),
   computed: {
@@ -97,6 +119,11 @@ export default {
       this.errorMessage = ''
       this.email = value;
       this.validateEmail (value);
+    },
+    mobile (value) {
+      this.errorMessage = ''
+      this.mobile = value;
+      this.validateMobile (value);
     }
   },
   methods: {
@@ -114,14 +141,17 @@ export default {
           this.user.store.avatar = this.avatar
           this.user.store.name = this.name
           this.user.store.email = this.email
+          this.user.store.mobile = this.mobile
           this.user.store.apptdate  = this.datepicker
           this.user.store.appttime  = this.timepicker
           this.user.store.numpax  = this.numpax
+          this.message = 'Preparing user detail ...'
           await this.dbCreateReservation(this.user.store)
         }
       }
     },
     dbCreateReservation: async function(user) {
+      this.message = 'Writing reservation ...'
       const res = await api.createcustomer(user)
       await this.sendEmail('Reservation Confirmation', res._id)
       this.$router.push(`/my-reservation/${res._id}`)
@@ -133,9 +163,13 @@ export default {
       this.form.date = ShowDate(this.user.store.apptdate) + ' ' + ShowTime(this.user.store.appttime)
       this.form.numpax = this.user.store.numpax
       this.form.urllink = RESERVATION_LINK + id
-      await axios.post(SENDMAIL_URL, JSON.stringify(this.form))
-        .then(function () {})
-        .catch(function () {})
+      this.message = 'Sending email ...'
+      try {
+        await axios.post(SENDMAIL_URL, JSON.stringify(this.form))
+        this.message = 'Email sent ...'
+      } catch  {
+        this.message = 'Error sending email ...'
+      }
     },
     validateEmail(value){
       if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/.test(value) ) {
@@ -144,6 +178,13 @@ export default {
       } else {
         this.msg['email'] = 'invalid email address'
         this.hasErrors = true
+      }
+    },
+    validateMobile(value){
+      if (value) {
+        this.msg['mobile'] = ''
+      } else {
+        this.msg['mobile'] = 'phone should not be blank';
       }
     },
     validateName(value){

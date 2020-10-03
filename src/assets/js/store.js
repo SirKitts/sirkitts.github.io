@@ -3,7 +3,8 @@ export default {
         avatar: '0',
         name: '',
         email: '',
-		apptdate: '',
+        mobile: '',
+        apptdate: '',
         appttime: '',
         numpax: 1
     }

@@ -41,6 +41,20 @@ body {font-family: Arial, Helvetica, sans-serif;}
   opacity: 1;
 }
 
+.btncancel {
+  background-color: red;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btncancel:hover {
+  opacity: 1;
+}
+
 .img-round {
   border-radius: 50%;
   cursor: pointer;

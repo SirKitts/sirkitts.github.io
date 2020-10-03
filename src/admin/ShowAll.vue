@@ -8,7 +8,12 @@
             <th>Time</th>
             <th>
               <div class="timeswitch">
-                  Number of People
+                  Guests
+              </div>
+            </th>
+            <th>
+              <div class="timeswitch">
+                  Contact Details
               </div>
             </th>
             <th>
@@ -27,6 +32,9 @@
             <td>{{ showTime(item.appttime) }}</td>
             <td style="text-align: right;">
               {{ item.numpax }}
+            </td>
+            <td>
+              {{ item.mobile }}<br/>{{ item.email }}
             </td>
             <td>
               <button type="submit" class="btn" @click.prevent="end(item._id)">end</button>
