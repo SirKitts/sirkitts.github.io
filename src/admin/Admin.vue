@@ -22,6 +22,8 @@
 <script>
 import axios from 'axios';
 import { api } from '@/helpers/api'
+import store from '@/admin/js/store'
+import pass from '@/admin/js/pass'
 import { ShowDate, ShowTime } from '@/helpers/common';
 import { SENDMAIL_URL } from '@/helpers/constants';
 
@@ -30,7 +32,7 @@ const ShowAll = () => import(
 );
 
 const Header = () => import(
-  /* webpackChunkName: "header-component" */ '@/components/Header.vue'
+  /* webpackChunkName: "header-component" */ '@/admin/Header.vue'
 );
 
 const Footer = () => import(
@@ -47,6 +49,8 @@ export default {
   data: () => ({
     datepicker: '',
     appts: [],
+    admin: store,
+    password: pass,
     form: {
       name: '',
       email: '',
@@ -54,7 +58,8 @@ export default {
       date: '',
       numpax: '',
       urllink: '',
-    }
+    },
+    hasAccess: false,
   }),
   watch: {
     datepicker: function() {
@@ -69,6 +74,10 @@ export default {
     ended: async function(data) {
       await this.sendMail('Thank you', data)
       this.refresh()
+    },
+    logout() {
+      window.localStorage.removeItem('login')
+      this.$router.push('/admin')
     },
     refresh() {
       location.reload()
@@ -97,9 +106,21 @@ export default {
     }
   },
   mounted () {
-    const [day, month, year] = ( new Date() ).toLocaleDateString().split("/")
-    this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
-    this.getApptsByCustomersByDate()
+    this.memory = JSON.parse(window.localStorage.getItem('login'))
+    if (this.memory) {
+      this.admin.store.name = this.memory[0].login.name
+      this.admin.store.pass = this.memory[0].login.pass
+      this.hasAccess = (this.password.store.name === this.admin.store.name &&
+        this.password.store.pass === this.admin.store.pass) ? true : false
+    }
+
+    if (this.hasAccess) {
+      const [day, month, year] = ( new Date() ).toLocaleDateString().split("/")
+      this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
+      this.getApptsByCustomersByDate()
+    } else {
+      this.logout()
+    }
   }
 }
 </script>

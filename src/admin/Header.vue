@@ -1,6 +1,6 @@
 <template>
   <div class="input-container">
-    <img :src="logo" width="75" height="75" @click.prevent="backHome" />
+    <img :src="logo" width="75" height="75" @click="$router.push('/admin')" />
     <h2>{{ title }}</h2>
   </div>
 </template>
@@ -15,11 +15,6 @@ export default {
   },
   data: () => ({
     logo: LOGO
-  }),
-  methods: {
-    backHome () {
-      this.$router.push('/')
-    },
-  }
+  })
 }
 </script>

@@ -72,7 +72,7 @@ const Footer = () => import(
 );
 
 export default {
-  name: 'reserve',
+  name: 'makereservation',
   components: {
     Header,
     Footer

@@ -22,6 +22,7 @@
 
     <div class="input-container">
       <button type="submit" class="btncancel" @click="cancelAppt">Cancel Reservation</button>
+      <button type="submit" class="btn" @click.prevent="makeNewReservation">Make New Reservation</button>
     </div>
 
     <Footer />
@@ -73,6 +74,9 @@ export default {
       this.$router.push('/')
     },
     getUserIcon (v) { return GetIcon(v) },
+    makeNewReservation () {
+      this.$router.push(`/make-reservation`)
+    },
     sendMail: async function(msg) {
       this.form.name = this.user.store.name
       this.form.email = this.user.store.email
