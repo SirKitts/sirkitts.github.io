@@ -120,6 +120,8 @@ export default {
   mounted () {
     const [day, month, year] = ( new Date() ).toLocaleDateString().split("/")
     this.datepicker = (year + '-' + month + '-' + day).substr(0, 10)
+    this.name = this.password.store.name
+    this.pass = this.password.store.pass
   }
 }
 </script>

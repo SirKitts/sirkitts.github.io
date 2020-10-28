@@ -5,9 +5,10 @@
     </center>
 
     <button type="submit" class="btn" @click.prevent="login">My Reservation</button>
-    <div class="input-container">
-    </div>
-    <button type="submit" class="btn" @click.prevent="makeReservation">Make Reservation</button>
+    <div class="input-container"></div>
+    <button type="submit" class="btn" @click.prevent="dineInReservation">Dine In Reservation</button>
+    <div class="input-container"></div>
+    <button type="submit" class="btn" @click.prevent="orderReservation">Order Reservation</button>
     
     <Footer />
   </section>
@@ -32,11 +33,21 @@ export default {
     login () {
       this.$router.push('/login')
     },
-    makeReservation () {
-      this.$router.push('/make-reservation/')
+    dineInReservation () {
+      this.$router.push('/dine-in-reservation/')
+    },
+    orderReservation () {
+      this.$router.push('/order-reservation/')
     },
   }
 }
 </script>
 
-<style src="@/assets/css/style.css" scoped></style>
+<style src="@/assets/css/style.css" scoped>
+.alignCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+}
+</style>

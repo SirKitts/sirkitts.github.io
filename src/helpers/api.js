@@ -11,8 +11,8 @@ Vue.use(VueFlashMessage, {
 });
 
 const vm = new Vue();
-// const baseURL = 'http://localhost:5000/customers/';
-const baseURL = 'https://pacific-harbor-72432.herokuapp.com/customers/';
+const baseURL = 'http://localhost:5000/customers/';
+// const baseURL = 'https://pacific-harbor-72432.herokuapp.com/customers/';
 
 const handleError = fn => (...params) =>
   fn(...params).catch(error => {

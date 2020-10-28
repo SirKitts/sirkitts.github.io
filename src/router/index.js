@@ -16,9 +16,14 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "login-components" */ '@/views/Login.vue')
   },
   {
-    path: '/make-reservation',
-    name: 'MakeReservation',
-    component: () => import(/* webpackChunkName: "makereservation-components" */ '@/views/MakeReservation.vue')
+    path: '/dine-in-reservation',
+    name: 'DineInReservation',
+    component: () => import(/* webpackChunkName: "dineinreservation-components" */ '@/views/DineInReservation.vue')
+  },
+  {
+    path: '/order-reservation',
+    name: 'OrderReservation',
+    component: () => import(/* webpackChunkName: "orderreservation-components" */ '@/views/OrderReservation.vue')
   },
   {
     path: '/my-reservation/:id',
