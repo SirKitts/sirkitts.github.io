@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <Header/>
     <router-view/>
     <Footer/>
@@ -24,5 +24,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+  @import "@/assets/sass/main.scss";
 </style>

@@ -1,10 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/pages/index.vue'
-import About from '@/pages/about.vue'
-import Work from '@/pages/work.vue'
-import Skills from '@/pages/skills.vue'
-import Sample from '@/pages/samples/index.vue'
 
 Vue.use(VueRouter)
   const routes = [
@@ -16,22 +12,22 @@ Vue.use(VueRouter)
   {
     path: '/about',
     name: 'About',
-    component: () => import(/* webpackChunkName: "About-components" */ About)
+    component: () => import(/* webpackChunkName: "About-components" */ '@/pages/about.vue')
   },
   {
     path: '/work',
     name: 'Work',
-    component: () => import(/* webpackChunkName: "Work-components" */ Work)
+    component: () => import(/* webpackChunkName: "Work-components" */ '@/pages/work.vue')
   },
   {
     path: '/skills',
     name: 'Skills',
-    component: () => import(/* webpackChunkName: "Skills-components" */ Skills)
+    component: () => import(/* webpackChunkName: "Skills-components" */ '@/pages/skills.vue')
   },
   {
     path: '/samples',
     name: 'Samples',
-    component: () => import(/* webpackChunkName: "Samples-components" */ Sample)
+    component: () => import(/* webpackChunkName: "Samples-components" */ '@/pages/samples/index.vue')
   },
 ]
 
