@@ -1,9 +1,9 @@
 <template>
   <div class="clock-container">
     <div class="arrow">
-      <NuxtLink to="/samples">
+      <router-link to="/samples">
         <i class="fas fa-arrow-circle-left fa-2x" style="color: white;" />
-      </NuxtLink>
+      </router-link>
     </div>
     <div class="clock">
       <Clock />
@@ -12,9 +12,15 @@
 </template>
 
 <script>
+const Clock = () => import(
+  /* webpackChunkName: "clock-component" */ '@/components/Clock'
+);
+
 export default {
   name: 'ClockSample',
-  components: {},
+  components: {
+    Clock
+  },
   layout: 'sample',
   data () {
     return {}

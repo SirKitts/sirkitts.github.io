@@ -16,9 +16,9 @@
         >
           <div class="slideshow__text">
             <p style="color: white;">
-              <NuxtLink to="/samples">
+              <router-link to="/samples">
                 <i class="fas fa-arrow-circle-left fa-2x" style="color: aqua;" />
-              </NuxtLink>
+              </router-link>
               {{ index+1 }}
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit atque omnis ex magni ea non praesentium, laboriosam mollitia fuga, debitis officia velit fugiat odit accusamus natus perspiciatis provident itaque cumque.
               <a href="https://source.unsplash.com/" style="color: aqua; font-size: small">Image by Usplash.com</a>

@@ -29,9 +29,9 @@
         <p><a :href="hero.detail.kicker.link">{{ hero.detail.kicker.text }}</a></p>
         <p>{{ hero.detail.text }}</p>
         <button>{{ hero.detail.button.text }}</button>
-        <NuxtLink to="/samples">
+        <router-link to="/samples">
           <i class="fas fa-arrow-circle-left fa-2x" />
-        </NuxtLink>
+        </router-link>
       </div>
     </div>
   </section>

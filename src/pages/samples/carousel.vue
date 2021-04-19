@@ -1,9 +1,9 @@
 <template>
   <div class="work-container">
     <div class="arrow">
-      <NuxtLink to="/samples">
+      <router-link to="/samples">
         <i class="fas fa-arrow-circle-left fa-2x" style="color: white;" />
-      </NuxtLink>
+      </router-link>
     </div>
     <div class="work__projects">
       <Carousel title="Latest News" :items="projects" />
@@ -14,9 +14,21 @@
 </template>
 
 <script>
+const Carousel = () => import(
+  /* webpackChunkName: "carousel-component" */ '@/components/Carousel'
+);
+
+const ImageCredit = () => import(
+  /* webpackChunkName: "image-credit-component" */ '@/components/ImageCredit.vue'
+);
+
+
 export default {
   name: 'CarouselSample',
-  components: {},
+  components: {
+    Carousel,
+    ImageCredit
+  },
   layout: 'sample',
   data () {
     return {

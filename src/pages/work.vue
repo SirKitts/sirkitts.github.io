@@ -45,9 +45,35 @@
 </template>
 
 <script>
+const WorkHistory = () => import(
+  /* webpackChunkName: "work-history-component" */ '@/components/WorkHistory'
+);
+
+const Carousel = () => import(
+  /* webpackChunkName: "carousel-component" */ '@/components/Carousel'
+);
+
+const ImageCredit = () => import(
+  /* webpackChunkName: "image-credit-component" */ '@/components/ImageCredit'
+);
+
+const WorkAchievements = () => import(
+  /* webpackChunkName: "work-achievements-component" */ '@/components/WorkAchievements'
+);
+
+const WorkResponsibilities = () => import(
+  /* webpackChunkName: "work-responsibilities-component" */ '@/components/WorkResponsibilities'
+);
+
 export default {
   name: 'Work',
-  components: {},
+  components: {
+    WorkHistory,
+    Carousel,
+    ImageCredit,
+    WorkAchievements,
+    WorkResponsibilities
+  },
   data () {
     return {
       ptr: 1,

@@ -13,13 +13,13 @@
         class="sample__box"
       >
         <h3 class="sample__box-heading">
-          <NuxtLink :to="sample.url">
+          <router-link :to="sample.url">
             {{ sample.name }}
-          </NuxtLink>
+          </router-link>
         </h3>
-        <NuxtLink v-if="sample.image" :to="sample.url">
+        <router-link v-if="sample.image" :to="sample.url">
           <img :src="`https://sirkitts.github.io/resume/images/${sample.image}.png`">
-        </NuxtLink>
+        </router-link>
       </div>
     </div>
     <div class="sample__more-to-come">

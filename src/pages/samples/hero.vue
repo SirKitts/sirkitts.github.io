@@ -3,9 +3,15 @@
 </template>
 
 <script>
+const Hero = () => import(
+  /* webpackChunkName: "hero-component" */ '@/components/Hero'
+);
+
 export default {
   name: 'HeroSample',
-  components: {},
+  components: {
+    Hero
+  },
   layout: 'sample',
   data () {
     return {

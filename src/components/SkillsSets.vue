@@ -28,6 +28,10 @@
 </template>
 
 <script>
+const ProgressBar = () => import(
+  /* webpackChunkName: "progress-bar-component" */ '@/components/ProgressBar'
+);
+
 export default {
   name: 'SkillsSets',
   props: {
@@ -36,6 +40,9 @@ export default {
       required: true,
       default () {}
     }
+  },
+  components: {
+    ProgressBar
   },
   data () {
     return {

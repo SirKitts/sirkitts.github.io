@@ -1,16 +1,28 @@
 <template>
   <div id="app">
+    <Header/>
     <router-view/>
+    <Footer/>
   </div>
 </template>
 
-<style>
-body, html {
-  height: 100%;
-  margin: 0px 10px 0px;
-}
+<script>
+const Header = () => import(
+  /* webpackChunkName: "header-component" */ '@/components/Header'
+);
 
-* {
-  box-sizing: border-box;
+const Footer = () => import(
+  /* webpackChunkName: "footer-component" */ '@/components/Footer'
+);
+
+export default {
+  name: 'app',
+  components: {
+    Header,
+    Footer
+  },
 }
+</script>
+
+<style>
 </style>

@@ -22,9 +22,15 @@
 </template>
 
 <script>
+const SkillsSets = () => import(
+  /* webpackChunkName: "skills-sets-component" */ '@/components/SkillsSets'
+);
+
 export default {
   name: 'Skills',
-  components: {},
+  components: {
+    SkillsSets
+  },
   data () {
     return {
       ptr: 0,

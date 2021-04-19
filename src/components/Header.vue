@@ -9,9 +9,9 @@
         v-for="(menu, index) in menulist"
         :key="index"
       >
-        <NuxtLink :to="menu.url">
+        <router-link :to="menu.url">
           {{ menu.name }}
-        </NuxtLink>
+        </router-link>
       </li>
     </ul>
   </header>
