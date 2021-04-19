@@ -4,7 +4,7 @@
       sample components
     </h1>
     <p class="sample__text">
-      Here are some of the reuseable components written in nuxtjs. More to come...
+      Here are some of the reuseable components written in vuejs. More to come...
     </p>
     <div class="sample__boxes">
       <div

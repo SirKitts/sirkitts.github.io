@@ -7,6 +7,7 @@
     </div>
     <div class="clock">
       <Clock />
+      <ImageCredit />
     </div>
   </div>
 </template>
@@ -16,10 +17,15 @@ const Clock = () => import(
   /* webpackChunkName: "clock-component" */ '@/components/Clock'
 );
 
+const ImageCredit = () => import(
+  /* webpackChunkName: "image-credit-component" */ '@/components/ImageCredit.vue'
+);
+
 export default {
   name: 'ClockSample',
   components: {
-    Clock
+    Clock,
+    ImageCredit
   },
   layout: 'sample',
   data () {
@@ -39,6 +45,8 @@ export default {
     ),
     url('https://source.unsplash.com/1600x900/daily?nature')
     no-repeat center center / cover;
+
+  height: 80vh;
 }
 
 .arrow {
