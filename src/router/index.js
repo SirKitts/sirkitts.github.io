@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '@/pages/index.vue'
+import About from '@/pages/about.vue'
+import Work from '@/pages/work.vue'
+import Skills from '@/pages/skills.vue'
+import Sample from '@/pages/samples/index.vue'
 
 Vue.use(VueRouter)
-
   const routes = [
   {
     path: '/',
@@ -11,34 +14,24 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import(/* webpackChunkName: "login-components" */ '@/views/Login.vue')
+    path: '/about',
+    name: 'About',
+    component: () => import(/* webpackChunkName: "About-components" */ About)
   },
   {
-    path: '/dine-in-reservation',
-    name: 'DineInReservation',
-    component: () => import(/* webpackChunkName: "dineinreservation-components" */ '@/views/DineInReservation.vue')
+    path: '/work',
+    name: 'Work',
+    component: () => import(/* webpackChunkName: "Work-components" */ Work)
   },
   {
-    path: '/order-reservation',
-    name: 'OrderReservation',
-    component: () => import(/* webpackChunkName: "orderreservation-components" */ '@/views/OrderReservation.vue')
+    path: '/skills',
+    name: 'Skills',
+    component: () => import(/* webpackChunkName: "Skills-components" */ Skills)
   },
   {
-    path: '/my-reservation/:id',
-    name: 'MyReservation',
-    component: () => import(/* webpackChunkName: "myreservation-components" */ '@/views/MyReservation.vue')
-  },
-  {
-    path: '/admin',
-    name: 'AdminLogin',
-    component: () => import(/* webpackChunkName: "admin-login-components" */ '@/admin/Login.vue')
-  },
-  {
-    path: '/admin/reservations',
-    name: 'AdminReservations',
-    component: () => import(/* webpackChunkName: "admin-reservations-components" */ '@/admin/Admin.vue')
+    path: '/samples',
+    name: 'Samples',
+    component: () => import(/* webpackChunkName: "Samples-components" */ Sample)
   },
 ]
 

@@ -1,0 +1,125 @@
+:root { 
+  // set hero default
+  --color-hero-href-default: #fff;
+  --color-hero-detail-default: gold;
+  --color-hero-background: 0,0,0;
+  --color-hero-border: none;
+  --color-hero-hover-background: #2b9fd8;
+}
+
+.hero {
+  display: grid;
+
+  &__image,
+  &__video { 
+    display: grid;
+    grid-row-start: 1;
+    grid-column-start: 1;
+
+    position: relative;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transform: translateX(-50%) translateY(-50%);
+    transition: 1s opacity;
+    object-fit: cover;
+  }
+
+  &__detail {
+    grid-row: 1;
+    grid-column: 1;
+
+    position: absolute;
+    top: 5rem;
+
+    font-family: inherit;
+    font-weight: 300;
+    font-size: 1rem;
+    color: var(--color-hero-href-default);
+    background: rgba(var(--color-hero-background),0.3);
+
+    height: 45%;
+    width: 28%;
+    padding: 2rem;
+    margin: 5rem;
+
+    overflow: hidden;
+
+    @media only screen and (max-width: $breakpoint-medium) {
+      font-size: 0.5rem;
+      margin: 5rem auto;
+    }
+
+    @media only screen and (max-width: $breakpoint-small) {
+      font-size: small;
+      margin: 2rem auto;
+    }
+
+    &--left {
+      left: 2rem;
+    }
+
+    &--right {
+      right: 2rem;
+    }
+
+    &--text {
+      p {
+        margin-top: 0.2rem;
+        overflow: hidden;
+      }
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      margin-top: 0;
+      letter-spacing: 0.2rem;
+    }
+
+    a {
+      display: inline-block;
+      color: var(--color-hero-href-default);
+      font-size: 0.8rem;
+      text-decoration: none;
+      background: rgba(var(--color-hero-background),0.4);
+      padding: 0.4rem;
+      border: var(--color-hero-border-default);
+      border-radius: 1rem;
+      transition: 0.4s;
+
+      &:hover{
+        background: rgba(var(--color-hero-background),0.9);
+        color: var(--color-hero-hover-background);
+      }
+    }
+
+    button { 
+      display: block;
+      width: 80%;
+      padding: 0.4rem;
+      border: none; 
+      margin: 1rem auto;
+      font-size: 1.2rem;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border-radius: 4px; 
+      cursor: pointer;
+      transition: .2s;
+    
+      &:hover { 
+        background: rgba(var(--color-hero-background),0.5);
+        color: var(--color-hero-hover-background);
+        animation: pulsate 1s infinite;
+      }
+    }
+
+    @media only screen and (max-width: $breakpoint-medium) {
+      width: 80%;
+    }
+  }
+}

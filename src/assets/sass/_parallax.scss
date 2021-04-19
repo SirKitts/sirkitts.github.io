@@ -1,0 +1,16 @@
+.parallax {
+    height: 100vh; 
+    background:
+        url('https://source.unsplash.com/1600x900/daily?sand')
+        no-repeat center center / cover;
+    background-attachment: fixed;
+}
+
+/* Turn off parallax scrolling */
+/*
+@media only screen and (max-device-width: 1366px) {
+    .parallax {
+        background-attachment: scroll;
+    }
+}
+*/

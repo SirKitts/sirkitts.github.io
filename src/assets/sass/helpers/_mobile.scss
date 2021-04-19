@@ -1,0 +1,89 @@
+/* portrait */
+@media (orientation: portrait) and (max-width: $breakpoint-small) {
+    header {
+        .photo {
+            width: 2rem;
+            height: 2rem;
+            margin-left: 0.5rem;
+        }
+    }
+
+    .index {
+        &-container {
+            padding-top: 0.3rem;
+
+            h1 {
+                display: none;
+            }
+        }
+
+        &-text {
+            &__heading {
+                font-size: 3rem;
+                font-weight: 900;
+            }
+
+            &__subheading {
+                font-size: 0.8rem;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+/* landscape */
+@media (orientation: landscape) and (max-height: $breakpoint-small) {
+    header {
+        .photo {
+            width: 2.4rem;
+            height: 2.4rem;
+            margin-left: 1rem;
+        }
+
+        .signature {
+            font-size: 1rem;
+        }
+
+        ul {
+            li {
+                font-weight: 500;
+                font-size: 1rem;
+                margin: 0.1rem;
+            }
+        }
+    }
+
+    .index {
+        &-container {
+            padding-top: 0.3rem;
+
+            h1 {
+                display: none;
+            }
+        }
+
+        &-text {
+            &__heading {
+                font-size: 2rem;
+                font-weight: 400;
+                line-height: 4.5rem;
+            }
+
+            &__subheading {
+                font-size: 0.8rem;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .work__buttons-btn {
+        font-size: 0.6rem;
+        padding: 0.8rem 1.2rem;
+    }
+
+    footer {
+        .social-media .fab {
+            border: none;
+        }
+    }
+}

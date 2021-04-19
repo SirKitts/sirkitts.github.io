@@ -1,25 +1,36 @@
 <template>
-  <div class="input-container">
-    <img :src="logo" width="75" height="75" @click.prevent="backHome" />
-    <h2>{{ title }}</h2>
-  </div>
+  <header>
+    <div class="photo" />
+    <h1 class="signature">
+      Jose Quitain
+    </h1>
+    <ul>
+      <li
+        v-for="(menu, index) in menulist"
+        :key="index"
+      >
+        <NuxtLink :to="menu.url">
+          {{ menu.name }}
+        </NuxtLink>
+      </li>
+    </ul>
+  </header>
 </template>
 
 <script>
-import { LOGO } from '@/helpers/constants'
-
 export default {
-  name: 'mainheader',
-  props: {
-    title: String
-  },
-  data: () => ({
-    logo: LOGO
-  }),
-  methods: {
-    backHome () {
-      this.$router.push('/')
-    },
+  name: 'Header',
+  components: {},
+  data () {
+    return {
+      menulist: [
+        { url: '/', name: 'Home' },
+        { url: '/about', name: 'About' },
+        { url: '/work', name: 'Work' },
+        { url: '/skills', name: 'Skills' },
+        { url: '/samples', name: 'Samples' }
+      ]
+    }
   }
 }
 </script>

@@ -1,0 +1,24 @@
+@charset 'utf-8';
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Dosis');
+
+$color-primary: #316ba3;
+
+@import './helpers/breakpoints';
+@import './helpers/custom';
+@import 'reset-basic';
+
+@import 'carousel';
+@import 'hero';
+@import 'logo';
+@import 'progress-bar';
+@import 'skills';
+@import 'slideshow';
+@import 'work';
+
+@import 'header';
+@import 'footer';
+@import 'animation';
+
+@import './helpers/mobile';
