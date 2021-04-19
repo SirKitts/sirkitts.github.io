@@ -29,6 +29,26 @@ Vue.use(VueRouter)
     name: 'Samples',
     component: () => import(/* webpackChunkName: "Samples-components" */ '@/pages/samples/index.vue')
   },
+  {
+    path: '/samples/hero',
+    name: 'SamplesHero',
+    component: () => import(/* webpackChunkName: "Samples-Hero-components" */ '@/pages/samples/hero.vue')
+  },
+  {
+    path: '/samples/carousel',
+    name: 'SamplesCarousel',
+    component: () => import(/* webpackChunkName: "Samples-Carousel-components" */ '@/pages/samples/carousel.vue')
+  },
+  {
+    path: '/samples/clock',
+    name: 'SamplesClock',
+    component: () => import(/* webpackChunkName: "Samples-Clock-components" */ '@/pages/samples/clock.vue')
+  },
+  {
+    path: '/samples/slideshow',
+    name: 'SamplesSlideshow',
+    component: () => import(/* webpackChunkName: "Samples-Slideshow-components" */ '@/pages/samples/slideshow.vue')
+  }
 ]
 
 const router = new VueRouter({

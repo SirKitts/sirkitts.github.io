@@ -14,7 +14,7 @@ footer {
     cursor: pointer;
 
     .social-media .fab {
-        margin: auto;
+        margin: 0rem 0.1rem;
         border: 2px #fff solid;
         border-radius: 50%;
         text-align: center;
@@ -22,7 +22,7 @@ footer {
     }
 
     .social-media .fab:hover {
-        background: $color-primary; 
+        background: $color-primary;
     }
 
     .social-media a,

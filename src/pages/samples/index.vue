@@ -18,7 +18,7 @@
           </router-link>
         </h3>
         <router-link v-if="sample.image" :to="sample.url">
-          <img :src="`https://sirkitts.github.io/resume/images/${sample.image}.png`">
+          <img :src="`${sample.image}`">
         </router-link>
       </div>
     </div>
@@ -39,12 +39,22 @@ export default {
         {
           name: 'Hero',
           url: '/samples/hero',
-          image: 'hero'
+          image: 'https://sirkitts.github.io/resume/images/hero.png'
+        },
+        {
+          name: 'Slideshow',
+          url: '/samples/slideshow',
+          image: 'https://sirkitts.github.io/resume/images/slideshow.png'
         },
         {
           name: 'Clock',
           url: '/samples/clock',
-          image: 'clock'
+          image: 'https://sirkitts.github.io/resume/images/clock.png'
+        },
+        {
+          name: 'Carousel',
+          url: '/samples/carousel',
+          image: 'https://source.unsplash.com/1600x900/daily?carousel'
         }
       ]
     }

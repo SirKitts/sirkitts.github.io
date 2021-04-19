@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="resume">
     <Header/>
     <router-view/>
     <Footer/>
@@ -25,5 +25,20 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "@/assets/sass/main.scss";
+@import "@/assets/sass/main.scss";
+
+.resume {
+  display: grid;
+  grid-template: 10vh 80vh 10vh;
+}
+
+.container {
+  margin: 0 auto;
+  min-height: 80vh;
+  width: 100%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 </style>

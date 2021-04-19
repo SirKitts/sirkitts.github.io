@@ -22,7 +22,6 @@ const ImageCredit = () => import(
   /* webpackChunkName: "image-credit-component" */ '@/components/ImageCredit.vue'
 );
 
-
 export default {
   name: 'CarouselSample',
   components: {
