@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/pages/index.vue'
+import NotFound from '@/pages/notfound.vue'
 
 Vue.use(VueRouter)
   const routes = [
@@ -53,6 +54,11 @@ Vue.use(VueRouter)
     path: '/samples/multi-form',
     name: 'SamplesMultiForm',
     component: () => import(/* webpackChunkName: "Samples-MultiForm-components" */ '@/pages/samples/multiform.vue')
+  },
+  { 
+    path: '/:pathMatch(.*)', 
+    name: 'NotFound',
+    component: NotFound
   }
 ]
 

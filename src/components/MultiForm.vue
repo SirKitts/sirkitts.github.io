@@ -52,7 +52,7 @@ export default {
   data () {
     return {
       offset: 1,
-      step: 1,
+      step: 0,
       mform: {}
     }
   },

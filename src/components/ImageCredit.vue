@@ -13,3 +13,19 @@
     </p>
   </div>
 </template>
+
+<style>
+.image-credit {
+    position: absolute;
+    bottom: 5.8rem;
+    right: -3.2rem;
+    margin: 2rem auto;
+    transform: rotate(270deg);
+    background-color: transparent;
+}
+
+.image-credit a {
+    text-decoration: none;
+    outline: none;
+}
+</style>
