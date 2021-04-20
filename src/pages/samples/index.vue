@@ -55,6 +55,11 @@ export default {
           name: 'Carousel',
           url: '/samples/carousel',
           image: 'https://source.unsplash.com/1600x900/daily?carousel'
+        },
+        {
+          name: 'Multi-Form',
+          url: '/samples/multi-form',
+          image: 'https://source.unsplash.com/1600x900/daily?form'
         }
       ]
     }

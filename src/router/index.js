@@ -48,6 +48,11 @@ Vue.use(VueRouter)
     path: '/samples/slideshow',
     name: 'SamplesSlideshow',
     component: () => import(/* webpackChunkName: "Samples-Slideshow-components" */ '@/pages/samples/slideshow.vue')
+  },
+  {
+    path: '/samples/multi-form',
+    name: 'SamplesMultiForm',
+    component: () => import(/* webpackChunkName: "Samples-MultiForm-components" */ '@/pages/samples/multiform.vue')
   }
 ]
 
