@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
   title: 'SirKitts Docs',
   description: 'Tutorials and guides for useful frontend utilities',
-  base: '/docs',
+  base: '/docs/',
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
@@ -11,12 +11,12 @@ export default defineConfig({
       { text: 'GitHub', link: 'https://github.com/SirKitts' }
     ],
     sidebar: {
-      '/guides/': [
+      '/docs/guides/': [
         {
           text: 'Guides',
           items: [
-            { text: 'show-feature', link: '/guides/show-feature' },
-            { text: 'another-lib', link: '/guides/another-lib' }
+            { text: 'show-feature', link: '/docs/guides/show-feature' },
+            { text: 'another-lib', link: '/docs/guides/another-lib' }
           ]
         }
       ]
