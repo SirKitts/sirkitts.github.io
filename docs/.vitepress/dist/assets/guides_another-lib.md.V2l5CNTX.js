@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as a}from"./chunks/framework.CWJPbxCY.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"guides/another-lib.md","filePath":"guides/another-lib.md"}'),r={name:"guides/another-lib.md"};function o(n,s,i,c,d,p){return a(),t("div")}const m=e(r,[["render",o]]);export{l as __pageData,m as default};

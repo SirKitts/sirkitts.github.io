@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
   title: 'SirKitts Docs',
   description: 'Tutorials and guides for useful frontend utilities',
-  base: '/',
+  base: '/docs',
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
